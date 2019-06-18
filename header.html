@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <head>
+        <link rel="icon" type="image/png" href="/favicon.png">
+        <style>
+                body {
+                    background-color: #0D0221;
+                    margin: 0;
+                    padding: 0;
+                    color: white;
+                }
+
+                ul.menubar {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                    background-color: #333;
+                    
+                }
+
+                ul.menubar > li {
+                    float: left;
+                }
+
+                li a, .dropbtn {
+                    display: inline-block;
+                    color: white;
+                    padding: 16px;
+                    text-decoration: none;
+                    font-size: 16px;
+                    height: 48px;
+                }
+
+                ul.menubar > li > a:hover, .dropdown:hover .dropbtn {
+                    background-color: rgb(80, 80, 80);
+                }
+
+                ul.menubar > li.dropdown {
+                    display: inline-block;
+                }
+
+                .dropdown-content {
+                    display: none;
+                    position: absolute;
+                    background-color: rgb(80, 80, 80);
+                    min-width: 160px;
+                    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                    z-index: 1;
+                }
+
+                .dropdown-content a {
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                    text-align: left;
+                }
+
+                .dropdown-content a:hover {
+                    background-color: rgb(100, 100, 100);
+                }
+
+                .dropdown:hover .dropdown-content {
+                    display: block;
+                }
+                .noselect {
+                    -webkit-touch-callout: none; /* iOS Safari */
+                        -webkit-user-select: none; /* Safari */
+                        -khtml-user-select: none; /* Konqueror HTML */
+                        -moz-user-select: none; /* Firefox */
+                            -ms-user-select: none; /* Internet Explorer/Edge */
+                                user-select: none; /* Non-prefixed version, currently
+                                                    supported by Chrome and Opera */
+                    }
+                .content{
+                    margin: 10px;
+                    padding: 0px;
+                    max-width: 800px;
+                }
+                a {
+                    color:rgb(167, 166, 166);
+                }
+                a {
+                    color:rgb(167, 166, 166);
+                }
+                .block{
+                    border: solid rgb(36, 4, 94);
+                    background-color: rgb(25, 4, 66);
+                    border-radius: 5px;
+                    margin: 0px auto;
+                    padding:  10px;
+                    margin-bottom: 10px;
+                 
+                }
+                .block > h3{
+                    margin: 0;
+                    padding: 0;
+                }
+                .block > p{
+                    margin: 0;
+                    padding: 0;
+                    position: relative;
+                    left:15px;
+                }
+                .nav  a{
+                    display: inline-block;
+                    padding: 0;
+                    margin: 0;
+                    padding-right: 10px;
+                }
+                .nav h2{
+                    padding: 0;
+                    margin: 0;    
+                }
+        </style>
+    </head>
+    <body>
+        <div class="noselect">
+            <ul class="menubar">
+                <li><a href="/"><image src="/home.png" alt="Home" height="48px" style="padding-right:10px;"/></a></li>
+                <li class="dropdown">
+                    <a href = /projects/ class="dropbtn"><p>Projects</p></a>
+                    <div class="dropdown-content">
+                        %pythonString ret=list_dir("/projects/")%
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
