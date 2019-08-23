@@ -1,0 +1,114 @@
+%include /header.html%
+<title>294: VHDL</title>
+<H1>
+    VHDL development setup
+</H1>
+<!--<div class="block nav">
+<h2>
+<a href="#intro">Intro</a>
+<a href="#git">Github</a>
+<a href="#http">HTTP</a>
+</h2>
+</div>-->
+<div class="block">
+    <H3 id="intro">Introduction</H3>
+    <p>
+        This is just describing the steps to setup my VHDL development and simulation enviroment. I'll be using will be VS code as my IDE, emacs as my styler and GHDL as my simulator and error checker. 
+        This isn't gaurunteed to work, but it did work once.
+    </p>
+</div>
+<div class="block">
+<H3 id="git">Compiling GHDL</H3>
+<p>
+To get VScode integration working, currently GHDL has to be compiled from source. There are a few backends that are supported but I lean towards GCC due to speed.
+
+Below are the build steps:
+<pre><code>
+sudo apt install npm
+svn co svn://gcc.gnu.org/svn/gcc/branches/gcc-9-branch/ gcc
+git clone https://github.com/ghdl/ghdl
+git clone https://github.com/ghdl/ghdl-language-server
+cd ghdl
+mkdir build
+cd build
+../configure --with-gcc=../../gcc --prefix=/usr/local --enable-python
+make copy-sources
+mkdir gcc-objs
+cd gcc-objs
+unset LIBRARY_PATH CPATH C_INCLUDE_PATH PKG_CONFIG_PATH CPLUS_INCLUDE_PATH INCLUDE LD_LIBRARY_PATH
+../../../gcc/configure --prefix=/usr/local --enable-languages=c,vhdl \
+--disable-bootstrap --disable-lto --disable-multilib --disable-libssp \
+--disable-libgomp --disable-libquadmath 
+make -j8
+sudo make install
+cd ..
+make ghdllib
+sudo make install
+cd ..
+cd python
+pip3 install .
+cd ..
+cd ..
+cd ghdl-language-server
+cd ghdl-ls
+pip3 install .
+cd ..
+npm install -g vsce
+cd vscode-client
+vsce package
+code --install-extension vhdl-lsp-*.vsix
+</code></pre>
+
+Then put the code below in a file anywhere. I prefer /usr/bin/vf
+<pre><code>
+#!/bin/sh
+for i in '$@'
+do
+    emacs -batch $i --eval '(vhdl-beautify-buffer)' -f save-buffer
+    rm $i~
+    #echo $i >> /home/twoninefour/gay.txt
+done
+</code></pre>
+Install the vscode extension emeraldwalk.runonsave, add the code below to settings.json either for your project or for global vscode settings
+<pre><code>
+"emeraldwalk.runonsave": {
+    "commands": [
+        {
+            "match": "\\.vhdl$",
+            "isAsync": false,
+            "cmd": "vf ${file}"
+        }
+    ]
+}
+</code></pre>
+Each project needs a file name hdl-prj.json in its main directory. The format is below
+<pre><code>
+{
+    "options": {
+        "ghdl_analysis": [
+        ]
+    },
+    "files": [
+        { "file": "src/pwm_tb.vhdl", "language": "vhdl" },
+        { "file": "src/pwm.vhdl", "language": "vhdl" },
+        { "file": "src/heartbeat.vhdl", "language": "vhdl" },
+        { "file": "src/freqcomb.vhdl", "language": "vhdl" },
+        { "file": "src/freqgen.vhdl", "language": "vhdl" }
+
+    ]
+}
+</code></pre>
+To use GHDL you need to analyze every file with ghdl -a filename first. Then elaborate on your top level one with ghdl -e module_name and then run the executable generated with various parameters. A sample Makefile is below
+<pre><code>
+default: pwm
+pwm:
+        ghdl -m pwm_tb
+        ghdl -e pwm_tb
+        ./pwm_tb --stop-time=5ms --wave=wave.ghw
+graph:  pwm
+        gtkwave wave.ghw 
+</code></pre>
+    </p>
+</div>
+
+%include /footer.html%
