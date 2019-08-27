@@ -137,45 +137,79 @@
         </div>
         <div class="content">
 
-<title>294: Home</title>
+<title>294: GHDL</title>
 <H1>
-    Alex Jones's site
+    GHDL integration
 </H1>
+<div class="block nav">
+<h2>
+<a href="#intro">Intro</a>
+<a href="#git">Github</a>
+<a href="#http">HTTP</a>
+</h2>
+</div>
 <div class="block">
-    <h3>
-        What is this?
-    </h3>
+    <H3 id="intro">Introduction</H3>
     <p>
-        A technical log of projects and a form of digital portfolio. This helps me to record how to do things so that in a few years I can consult these notes.
+        The goal here was just to create a lightweight http server from scratch. Why from scratch? No reason other than a pathological desire to reinvent the wheel. As it progressed a basic feature list emerged:
+        <ul>
+            <li><a href="#http" class="a_no">HTTP 1.0 support</a></li>
+            <li>Basic scripting
+                <ul>
+                    <li>Python?</li>
+                    <li>Lua?</li>
+                    <li>Custom garbage?</li>
+                    <li>Painful javascript on every page that loads the headers and footers client side?</li>
+                    <li>Manually copying and pasting this awful design onto every document?</li>
+                </ul>
+            </li>
+            <li>Fast - load entire site into memory</li>
+            <li>IMAP email support?</li>
+        </ul>
     </p>
-    </br>
-    <h3>
-        Who are you?
-    </h3>
+</div>
+<div class="block">
+    <H3 id="git">Github</H3>
     <p>
-        Alex Jones, an electrical engineering undergraduate at Auburn university. Learn more <a href="/Bio/">here</a>
+        The github for the webserver is <a href="https://github.com/alextigernick/webserver/tree/master">here</a> and the website is <a href="https://github.com/alextigernick/website">here</a>
     </p>
-    </br>
-    <h3>
-        What kind of projects do you do?
-    </h3>
+</div>
+<div class="block">
+    <H3 id="http">Getting HTTP requests with ZMQ</H3>
+    <h4>-Intro</h4>
     <p>
-        Currently the majority of articles will be from Radio lab, but all my classes will get posted here. My hobby projects range from chemistry to embedded electronics to wood working.
+        If you don't know what ZMQ is, its a great wrapper for standard sockets and supports a bunch of different protocols and sockets types. See their website <a href="http://zeromq.org/">here</a>.
+        That being said, ZMQ is far from the best way to do this. I just wanted an excuse to use ZMQ outside of research/work.
     </p>
-    </br>
-    <h3>
-        Contact information?
-    </h3>
-    <p>
-        Email: <a href="emailto:naj0016@auburn.edu">naj0016@auburn.edu</a>
-    </p>
-    </br>
-    <h3>
-        What is this monstrosity of a site?
-    </h3>
-    <p>
-        See <a href="/projects/Web%20Server/">here</a>
-    </p>
+    <h4>-Basic ZMQ</h4>
+    
+    <p>ZMQ requires a context be constructed to do anything</p>
+    <pre><code>
+    void *ctx = zmq_ctx_new ();
+    assert (ctx);
+    </code></pre>
+    <p>And then, a socket, using that context. The different socket types can be read about <a href="http://api.zeromq.org/">here</a> on the socket page</p>
+    <pre><code>
+    void *socket = zmq_socket (ctx, ZMQ_STREAM);
+    assert (socket);
+    </code></pre>
+    <p>Binding takes a string which specifies both the protocol and the ip/port. The code below specifies any adapter on port 80(which is the port for http). This returns an error code which should probably be checked. The different protocols can be read about <a href="http://api.zeromq.org/">here</a> on the bind page</p>
+    <pre><code>
+    int rc = zmq_bind (socket, "tcp://*:80");
+    assert (rc == 0);
+    </code></pre>
+    <p>Now that you have a socket constructed and bound, there are two basic ways to send and receive, buffers and zmq_msg. You'll see me intermix them as buffers are faster but have a fixed size while messages adapt to the size of the incoming message. To use messages, they must be initialized first. Here I initialize two messages, one will receive the ID of the sender, and the other the content of the message. This is just how ZMQ handles stream sockets.</p>
+    <pre><code>
+    zmq_msg_t id,req;
+    zmq_msg_init(&id);
+    zmq_msg_init(&req);
+    </code></pre>
+    <p></p>
+    <pre><code>
+    zmq_msg_t id,req;
+    zmq_msg_init(&id);
+    zmq_msg_init(&req);
+    </code></pre>
 </div>
 
 </div>
