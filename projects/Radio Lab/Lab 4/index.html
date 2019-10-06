@@ -119,112 +119,45 @@
 <div class="block">
     <H3>Diode detector</H3>
     <p>
-        The oldest form of radio is called a crystal radio, which utilized a diode detector
+        The oldest form of radio is called a crystal radio, which utilized a primitive diode in the form of a galena crystal. This design calls back to that.
+        Basically just rectify the signal and then low-pass the signal to remove the carrier.
+        Its performance is absolutely abysmal, not worth showing a screenshot here as there wasn't even an output signal to see.
+        This is due to diodes having a finite turn on time and the breadboard certainly doesn't help with that.
+        This turn on time is handled by the second detector type.
     </p>
 </div>
 <div class="block">
-    <H3>The class B push-pull amplifier</H3>
+    <H3>Biased Diode detector</H3>
     <p>
-        This type of amp earns it's name because two transistors are used in the design, one that pushes current and the other that sinks it.
-        This is reminiscent of CMOS construction except the magnitude of the current can be controlled in this case because the transistors are BJTs instead of mosfets.
-        See the image below as an example, shamelessly ripped from <a href="https://circuitdigest.com/electronic-circuits/push-pull-amplifier-circuit-diagram">here.</a> Note: this isn't representative of what was actually built and tested.
-        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="Push-Pull-Amplifier.png"/><br>
-        As promised, this configuration fixes the quiescent power draw of the CE-CC amp, using only 36.16 mW. Everything comes at a cost, as this amp as some serious distortion due to the turn-on voltage of the transistors. This can be seen below.
-        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="tek00004.png"/><br>
-        Fear not theres a solution to the distortion.
+        Just take the exact same circuit as the normal diode detector, and apply a DC bias to just above the turn-on voltage of the diode.
+        This is done with a voltage divider. The waveform doesn't have the full amplitude of the input but it doesn't do half bad. See the waveform below. It pretty consistently extracts this intelligence with input signals from 40mV to 250mV before any clipping occurs.
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="tek00001.png"/><br>
     </p>
 </div>
 <div class="block">
-    <H3>The class AB push-pull amplifier</H3>
+    <H3>Complementary-Feedback Pair detector</H3>
     <p>
-        Its like the B push-pull's younger brother. Smarter, cooler, and gets all the babes.
-        This amp uses additional diodes to handle the turn-on voltage. A downside of this is a slight increase in the quiescent draw, from  36.16 mW up to 41.78 mW but thats a small price to pay for pretty squiggles. See below for the output waveform, mostly undistorted.
-        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="tek00005.png"/><br>
-        The gain of this system isn't great, about 0.7 V/V, but it can serve as a worthy replacement for the power hungry CC amp. Preamping the signal with a CE brings the total gain to around 15 V/V with 42.4 mVpp in and 600 mVpp out.
+        A CE amp basically acts as a diode detector, only letting current through when a certain voltage is present.
+        The problem here is the input signal is typically too small to cause a large swing in the throughput current of single transistor.
+        That can be fixed by setting up whats called a complementary pair. Basically as current begins to flow through the NPN the voltage will drop on the input of PNP.
+        This is essentially a very low input floor amplifier. The wave that comes out can be seen below.
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="tek00002.png"/><br>
+        The primary problem here is the number of components makes this very finnicky. The experience in the lab was that the system was very noisy. The acceptable voltage range was 2mVpp to 100mVpp which is a very low floor considering that we are on a breadboard.
     </p>
 </div>
 <div class="block">
-    <H3>The powerhouse: LM386</H3>
+    <H3>Conclusions and reflections</H3>
     <p>
-        With only three external components, the LM386 achieves a gain of 20.5 V/V, 4.2 Vpp out with 206.8 mVpp in. The circuit was designed for 20 V/V so the result of 20.5 V/V is quite accurate.
-        I failed to probe this one, but you can rest assured TI didn't put out an amp with serious distortion.
-        Checking the quiescent power, the LM386 draws around 45mW. The internals are an AB push-pull so this draw being almost identical to our AB push-pull makes sense.
-    </p>
-</div>
-<div class="block">
-    <H3>The jack of all trades: OP-Amp</H3>
-    <p>
-        Setting up the OP-amp directly from the lab manual yields a gain of 80.4 V/V. Thats delivered to a 1k ohm load, which no speaker ever is. OP-Amps have the distinct problem of not being able to pump much current so the op-amp needs to be followed by the AB push-pull from above. 
-        This new two stage amp has a total gain of around 45.13 V/V into the 8 ohm load which is great but sadly the quiescent draw goes up to 401.7 mW.
-    </p>
-</div>
-<div class="block">
-    <H3>Conclusions and Reflections</H3>
-    <p>
-        Five different amplifier stages were tested here all of which have their merits.<br><br>
-        CE:
-    </p>
-    <ul>
-        <li>Great gain</li>
-        <li>No noticeable distortion</li>
-        <li>Great efficiency</li>
-        <li>Huge drop in gain when the load resistance is low</li>
-    </ul>
-    <p>
-        This makes the CE a great choice as a pre-amp for the final stage, but it has no hope of being a solo amplifier<br><br>
-        OP-Amp:
-    </p>
-    <ul>
-        <li>Highly tunable gain</li>
-        <li>No noticeable distortion</li>
-        <li>Mid-Tier efficiency</li>
-        <li>Cannot power low load resistances</li>
-    </ul>
-    <p>
-        This makes the OP-AMP a great choice as a pre-amp for the final stage, but it has no hope of being a solo amplifier. Specifically its good as it is trivial to tune the gain.<br><br>
-        CC:
-    </p>
-    <ul>
-        <li>Close to unity gain</li>
-        <li>No noticeable distortion</li>
-        <li>Horrible efficiency</li>
-        <li>Can power low load resistances</li>
-    </ul>
-    <p>
-        This makes the CC a decent choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
-        Class B Push Pull:
-    </p>
-    <ul>
-        <li>Close to unity gain</li>
-        <li>Very noticeable distortion</li>
-        <li>Best efficiency</li>
-        <li>Can power low load resistances</li>
-    </ul>
-    <p>
-        This makes the Class B a semi-decent choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
-        Class AB Push Pull:
-    </p>
-    <ul>
-        <li>Close to unity gain</li>
-        <li>Minimal distortion</li>
-        <li>Close to top tier efficiency</li>
-        <li>Can power low load resistances</li>
-    </ul>
-    <p>
-        This makes the Class AB the absolute best choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
-        LM386:
-    </p>
-    <ul>
-        <li>Gains anywhere from 20 V/V to 200V/V</li>
-        <li>Minimal distortion</li>
-        <li>Close to top tier efficiency</li>
-        <li>Can power low load resistances</li>
-    </ul>
-    <p>
-        This makes the LM386 a great choice for the whole audio amp, one of the best in every way.<br><br>
-        So for pre-amps we have CE and the op-amp, while for buffer stages we have CC, B, and AB.
-        The lm386 sits in a class of its own as it serves as both a pre-amp and a buffer amp.
-        Personally I'll be using it almost exclusively due to its low external part count and high gain.
+        While detection is a bit more complicated than just filtering out the carrier signal, its not much harder. These circuits just make sense.<br><br>
+
+        Theres only two viable options for the final radio, one of which is way more finnicky and complicated than the other one, making the biased diode the clear winner.
+        <br><br>
+        Putting the signal from the biased diode into our audio amp of choice(lm386) makes sounds like the ones below.
+        It works quite well considering they are two simplest circuits we've looked at.
+        <br><audio controls>
+        <source src="lm.wav" type="audio/wav">
+        Your browser does not support the audio element.
+        </audio>
     </p>
 </div>
 %include /footer.html%
