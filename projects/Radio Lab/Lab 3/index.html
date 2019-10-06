@@ -1,0 +1,156 @@
+%include /header.html%
+<title>Lab 3</title>
+<H1>
+    Lab 3: Audio Amplifier
+</H1>
+<div class="block">
+    <H3>Introduction</H3>
+    <p>
+        For reference, <a href="manual.pdf">here</a> is the lab manual that was followed. This lab goes over various types of audio amplifiers. There are five designs that were tested and all five have their own section below.
+        <br><br>
+        Metrics for amplifiers:
+    </p>
+        <ul>
+            <li>Gain</li>
+            <li>Distortion</li>
+            <li>Efficiency(Power out over power in)</li>
+            <li>Quiescent Power</li>
+        </ul>  
+    <p>
+        We won't be measuring the efficiency in this lab as its difficult/tedious to do.
+        <br><br>
+        But why do we even need another amp? Didn't we explore the "all powerful CE amplifier" last lab?
+        Basically most amplifier types cannot push a lot of current even if they can generate large voltage swings. 
+        And the CE amp studied in lab 2 is hopeless with low resistance loads, decreasing its gain drastically. 
+        At 1kHz the gain goes to <b>1.84 V/V</b> for a 10 Ohm resistor, not nearly enough to amplify the miniscule signals that will be coming out of a radio.
+        
+        <br><Br>
+        The function generator suffers from the same problem. Applying a 2.2V signal to the speaker causes the actual voltage to drop to 640 mV. This is due to the generator normalizing its voltages for a 50 ohm load.
+        And so while the CE amp may be all powerful, everyone needs a friend every once in a while. This brings us to our first amp.
+    </p>
+</div>
+<div class="block">
+    <H3>Common-Emitter Amplifier into Common-Collector Amplifier</H3>
+    <p>
+        To fix this problem with the CE amp, we can follow it by a CC amp as can be seen below. This remedies the load resistance problem as the CC amp has extremely high input impedance.
+        It's primary problem is a gain near or below unity, but this is fixed by the preceding CE.<br>
+        <image style="border-radius: 18px; padding: 5px; width: 350px;" src="schema1.png"/>
+        <br>
+        First thing first, testing each amp separately. The CE amp was tested rather extensively in lab 2, its waveforms are clean with minimal distortion.
+        This holds true even at relatively high input amplitudes as can be seen in the next image. A 2 Vpp input amplitude comes out as a fairly clean 4 Vpp output which would be usable but isn't much of an amplifier<br>
+        <image style="border-radius: 18px; padding: 5px; width: 350px;" src="tek00000.png"/><br>
+        Above I mentioned the CC amp, but switching to this does barely any better. 800 mVpp in with 4 Vpp out is double the performance but still not useful yet.
+        <br><br>
+        Setting up the CC-CE amp combo takes this to 45 mVpp in and 1.8 Vpp out, a huge improvement. A 31.5 V/V gain is a pretty huge improvement over 2 and 4.25.
+        The waveform has mild distortion which can be seen below but it couldn't be heard and it's possible it is just instrumentation error.
+        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="tek00002.png"/><br>
+        Turning off the function generator and measuring the current consumed by checking voltage across a dummy resistor shows that this amp draw 0.88 W.
+        This quiescent draw is extremely high considering the load is at most half a watt, hence the need for alternative amps.
+    </p>
+</div>
+<div class="block">
+    <H3>The class B push-pull amplifier</H3>
+    <p>
+        This type of amp earns it's name because two transistors are used in the design, one that pushes current and the other that sinks it.
+        This is reminiscent of CMOS construction except the magnitude of the current can be controlled in this case because the transistors are BJTs instead of mosfets.
+        See the image below as an example, shamelessly ripped from <a href="https://circuitdigest.com/electronic-circuits/push-pull-amplifier-circuit-diagram">here.</a> Note: this isn't representative of what was actually built and tested.
+        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="Push-Pull-Amplifier.png"/><br>
+        As promised, this configuration fixes the quiescent power draw of the CE-CC amp, using only 36.16 mW. Everything comes at a cost, as this amp as some serious distortion due to the turn-on voltage of the transistors. This can be seen below.
+        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="tek00004.png"/><br>
+        Fear not theres a solution to the distortion.
+    </p>
+</div>
+<div class="block">
+    <H3>The class AB push-pull amplifier</H3>
+    <p>
+        Its like the B push-pull's younger brother. Smarter, cooler, and gets all the babes.
+        This amp uses additional diodes to handle the turn-on voltage. A downside of this is a slight increase in the quiescent draw, from  36.16 mW up to 41.78 mW but thats a small price to pay for pretty squiggles. See below for the output waveform, mostly undistorted.
+        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="tek00005.png"/><br>
+        The gain of this system isn't great, about 0.7 V/V, but it can serve as a worthy replacement for the power hungry CC amp. Preamping the signal with a CE brings the total gain to around 15 V/V with 42.4 mVpp in and 600 mVpp out.
+    </p>
+</div>
+<div class="block">
+    <H3>The powerhouse: LM386</H3>
+    <p>
+        With only three external components, the LM386 achieves a gain of 20.5 V/V, 4.2 Vpp out with 206.8 mVpp in. The circuit was designed for 20 V/V so the result of 20.5 V/V is quite accurate.
+        I failed to probe this one, but you can rest assured TI didn't put out an amp with serious distortion.
+        Checking the quiescent power, the LM386 draws around 45mW. The internals are an AB push-pull so this draw being almost identical to our AB push-pull makes sense.
+    </p>
+</div>
+<div class="block">
+    <H3>The jack of all trades: OP-Amp</H3>
+    <p>
+        Setting up the OP-amp directly from the lab manual yields a gain of 80.4 V/V. Thats delivered to a 1k ohm load, which no speaker ever is. OP-Amps have the distinct problem of not being able to pump much current so the op-amp needs to be followed by the AB push-pull from above. 
+        This new two stage amp has a total gain of around 45.13 V/V into the 8 ohm load which is great but sadly the quiescent draw goes up to 401.7 mW.
+    </p>
+</div>
+<div class="block">
+    <H3>Conclusions and Reflections</H3>
+    <p>
+        Five different amplifier stages were tested here all of which have their merits.<br><br>
+        CE:
+    </p>
+    <ul>
+        <li>Great gain</li>
+        <li>No noticeable distortion</li>
+        <li>Great efficiency</li>
+        <li>Huge drop in gain when the load resistance is low</li>
+    </ul>
+    <p>
+        This makes the CE a great choice as a pre-amp for the final stage, but it has no hope of being a solo amplifier<br><br>
+        OP-Amp:
+    </p>
+    <ul>
+        <li>Highly tunable gain</li>
+        <li>No noticeable distortion</li>
+        <li>Mid-Tier efficiency</li>
+        <li>Cannot power low load resistances</li>
+    </ul>
+    <p>
+        This makes the OP-AMP a great choice as a pre-amp for the final stage, but it has no hope of being a solo amplifier. Specifically its good as it is trivial to tune the gain.<br><br>
+        CC:
+    </p>
+    <ul>
+        <li>Close to unity gain</li>
+        <li>No noticeable distortion</li>
+        <li>Horrible efficiency</li>
+        <li>Can power low load resistances</li>
+    </ul>
+    <p>
+        This makes the CC a decent choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
+        Class B Push Pull:
+    </p>
+    <ul>
+        <li>Close to unity gain</li>
+        <li>Very noticeable distortion</li>
+        <li>Best efficiency</li>
+        <li>Can power low load resistances</li>
+    </ul>
+    <p>
+        This makes the Class B a semi-decent choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
+        Class AB Push Pull:
+    </p>
+    <ul>
+        <li>Close to unity gain</li>
+        <li>Minimal distortion</li>
+        <li>Close to top tier efficiency</li>
+        <li>Can power low load resistances</li>
+    </ul>
+    <p>
+        This makes the Class AB the absolute best choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
+        LM386:
+    </p>
+    <ul>
+        <li>Gains anywhere from 20 V/V to 200V/V</li>
+        <li>Minimal distortion</li>
+        <li>Close to top tier efficiency</li>
+        <li>Can power low load resistances</li>
+    </ul>
+    <p>
+        This makes the LM386 a great choice for the whole audio amp, one of the best in every way.<br><br>
+        So for pre-amps we have CE and the op-amp, while for buffer stages we have CC, B, and AB.
+        The lm386 sits in a class of its own as it serves as both a pre-amp and a buffer amp.
+        Personally I'll be using it almost exclusively due to its low external part count and high gain.
+    </p>
+</div>
+%include /footer.html%

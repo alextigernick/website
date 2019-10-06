@@ -1,0 +1,230 @@
+%include /header.html%
+<script type="text/javascript">
+    function showAxes(ctx,axes) {
+        var width = ctx.canvas.width;
+        var height = ctx.canvas.height;
+        var xMin = 0;
+        
+        ctx.beginPath();
+        ctx.strokeStyle = "rgb(128,128,128)";
+        
+        // X-Axis
+        ctx.moveTo(xMin, height/2);
+        ctx.lineTo(width, height/2);
+        
+        // Y-Axis
+        ctx.moveTo(width/2, 0);
+        ctx.lineTo(width/2, height);
+        // Starting line
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, height);
+        
+        ctx.stroke();
+    }
+    function drawPoint(ctx, y) {            
+        var radius = 3;
+        ctx.beginPath();
+        // Hold x constant at 4 so the point only moves up and down.
+        ctx.arc(4, y, radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+    function plotSineAM(ctx, xOffset, yOffset) {
+        var width = ctx.canvas.width;
+        var height = ctx.canvas.height;
+        var scale = 20;
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgb(66,44,255)";
+        // console.log("Drawing point...");
+        // drawPoint(ctx, yOffset+step);
+        
+        var x = 4;
+        var y = 0;
+        var amplitude = 30;
+        var frequency = 3;
+        //ctx.moveTo(x, y);
+        ctx.moveTo(x, 50);
+        while (x < width) {
+            y = height/2 + (amplitude-amplitude/2 * Math.sin((x+xOffset)/frequency/10)) * Math.sin((x+xOffset)/frequency);
+            ctx.lineTo(x, y);
+            x++;
+        }
+        ctx.stroke();
+        ctx.save();
+        drawPoint(ctx, y);
+        ctx.stroke();
+        ctx.restore();
+    }
+    function plotSine(ctx, xOffset, yOffset) {
+        var width = ctx.canvas.width;
+        var height = ctx.canvas.height;
+        var scale = 20;
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgb(255,44,255)";
+        // console.log("Drawing point...");
+        // drawPoint(ctx, yOffset+step);
+        
+        var x = 4;
+        var y = 0;
+        var amplitude = 15;
+        var frequency = 30;
+        //ctx.moveTo(x, y);
+        ctx.moveTo(x, 50);
+        while (x < width) {
+            y = height/2-30 + amplitude * Math.sin((x+xOffset)/frequency);
+            ctx.lineTo(x, y);
+            x++;
+        }
+        ctx.stroke();
+        ctx.save();
+        drawPoint(ctx, y);
+        ctx.stroke();
+        ctx.restore();
+    }
+    function draw() {
+        var canvas = document.getElementById("am");
+        var context = canvas.getContext("2d");
+        context.clearRect(0, 0, 500, 500);
+        showAxes(context);
+        context.save();            
+        
+        plotSineAM(context, step, 50);
+        plotSine(context, step, 50);
+        context.restore();
+        
+        step += 1;
+        window.requestAnimationFrame(draw);
+    }
+    var step = -1;
+</script>
+<title>Lab 4</title>
+<H1>
+    Lab 4: AM Detector
+</H1>
+<div class="block">
+    <H3>Introduction</H3>
+    <p>
+        For reference, <a href="manual.pdf">here</a> is the lab manual that was followed. There are three different designs that were tested.
+        The only metric of performance(that we care about) for a detector is the minimum input amplitude at which it works. Component number ends up being a factor but thats only because im lazy and bad at breadboarding.
+        <br><br>
+        What does a detector do? It takes the blue wave and turns it into the pink-wave. This seems like it would be a low pass filter but in reality its not. Recalling the spectrum analyzer from Lab 1, we can see that an AM wave isn't actually the signal plus the carrier, its the signal multiplied by the carrier making it substantially more complicated to separate.
+        <br><canvas id="am" width="500" height="100"></canvas><script>draw();</script><br>
+        <a href="https://gist.github.com/gkhays/e264009c0832c73d5345847e673a64ab">99.9% of this JS came from here, credit is due</a>
+    </p>
+</div>
+<div class="block">
+    <H3>Diode detector</H3>
+    <p>
+        The oldest form of radio is called a crystal radio, which utilized a diode detector
+    </p>
+</div>
+<div class="block">
+    <H3>The class B push-pull amplifier</H3>
+    <p>
+        This type of amp earns it's name because two transistors are used in the design, one that pushes current and the other that sinks it.
+        This is reminiscent of CMOS construction except the magnitude of the current can be controlled in this case because the transistors are BJTs instead of mosfets.
+        See the image below as an example, shamelessly ripped from <a href="https://circuitdigest.com/electronic-circuits/push-pull-amplifier-circuit-diagram">here.</a> Note: this isn't representative of what was actually built and tested.
+        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="Push-Pull-Amplifier.png"/><br>
+        As promised, this configuration fixes the quiescent power draw of the CE-CC amp, using only 36.16 mW. Everything comes at a cost, as this amp as some serious distortion due to the turn-on voltage of the transistors. This can be seen below.
+        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="tek00004.png"/><br>
+        Fear not theres a solution to the distortion.
+    </p>
+</div>
+<div class="block">
+    <H3>The class AB push-pull amplifier</H3>
+    <p>
+        Its like the B push-pull's younger brother. Smarter, cooler, and gets all the babes.
+        This amp uses additional diodes to handle the turn-on voltage. A downside of this is a slight increase in the quiescent draw, from  36.16 mW up to 41.78 mW but thats a small price to pay for pretty squiggles. See below for the output waveform, mostly undistorted.
+        <br><image style="border-radius: 18px; padding: 5px; width: 350px;" src="tek00005.png"/><br>
+        The gain of this system isn't great, about 0.7 V/V, but it can serve as a worthy replacement for the power hungry CC amp. Preamping the signal with a CE brings the total gain to around 15 V/V with 42.4 mVpp in and 600 mVpp out.
+    </p>
+</div>
+<div class="block">
+    <H3>The powerhouse: LM386</H3>
+    <p>
+        With only three external components, the LM386 achieves a gain of 20.5 V/V, 4.2 Vpp out with 206.8 mVpp in. The circuit was designed for 20 V/V so the result of 20.5 V/V is quite accurate.
+        I failed to probe this one, but you can rest assured TI didn't put out an amp with serious distortion.
+        Checking the quiescent power, the LM386 draws around 45mW. The internals are an AB push-pull so this draw being almost identical to our AB push-pull makes sense.
+    </p>
+</div>
+<div class="block">
+    <H3>The jack of all trades: OP-Amp</H3>
+    <p>
+        Setting up the OP-amp directly from the lab manual yields a gain of 80.4 V/V. Thats delivered to a 1k ohm load, which no speaker ever is. OP-Amps have the distinct problem of not being able to pump much current so the op-amp needs to be followed by the AB push-pull from above. 
+        This new two stage amp has a total gain of around 45.13 V/V into the 8 ohm load which is great but sadly the quiescent draw goes up to 401.7 mW.
+    </p>
+</div>
+<div class="block">
+    <H3>Conclusions and Reflections</H3>
+    <p>
+        Five different amplifier stages were tested here all of which have their merits.<br><br>
+        CE:
+    </p>
+    <ul>
+        <li>Great gain</li>
+        <li>No noticeable distortion</li>
+        <li>Great efficiency</li>
+        <li>Huge drop in gain when the load resistance is low</li>
+    </ul>
+    <p>
+        This makes the CE a great choice as a pre-amp for the final stage, but it has no hope of being a solo amplifier<br><br>
+        OP-Amp:
+    </p>
+    <ul>
+        <li>Highly tunable gain</li>
+        <li>No noticeable distortion</li>
+        <li>Mid-Tier efficiency</li>
+        <li>Cannot power low load resistances</li>
+    </ul>
+    <p>
+        This makes the OP-AMP a great choice as a pre-amp for the final stage, but it has no hope of being a solo amplifier. Specifically its good as it is trivial to tune the gain.<br><br>
+        CC:
+    </p>
+    <ul>
+        <li>Close to unity gain</li>
+        <li>No noticeable distortion</li>
+        <li>Horrible efficiency</li>
+        <li>Can power low load resistances</li>
+    </ul>
+    <p>
+        This makes the CC a decent choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
+        Class B Push Pull:
+    </p>
+    <ul>
+        <li>Close to unity gain</li>
+        <li>Very noticeable distortion</li>
+        <li>Best efficiency</li>
+        <li>Can power low load resistances</li>
+    </ul>
+    <p>
+        This makes the Class B a semi-decent choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
+        Class AB Push Pull:
+    </p>
+    <ul>
+        <li>Close to unity gain</li>
+        <li>Minimal distortion</li>
+        <li>Close to top tier efficiency</li>
+        <li>Can power low load resistances</li>
+    </ul>
+    <p>
+        This makes the Class AB the absolute best choice for the final stage, but it also has no hope of being a solo amplifier<br><br>
+        LM386:
+    </p>
+    <ul>
+        <li>Gains anywhere from 20 V/V to 200V/V</li>
+        <li>Minimal distortion</li>
+        <li>Close to top tier efficiency</li>
+        <li>Can power low load resistances</li>
+    </ul>
+    <p>
+        This makes the LM386 a great choice for the whole audio amp, one of the best in every way.<br><br>
+        So for pre-amps we have CE and the op-amp, while for buffer stages we have CC, B, and AB.
+        The lm386 sits in a class of its own as it serves as both a pre-amp and a buffer amp.
+        Personally I'll be using it almost exclusively due to its low external part count and high gain.
+    </p>
+</div>
+%include /footer.html%

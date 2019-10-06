@@ -9,6 +9,7 @@
                     margin: 0;
                     padding: 0;
                     color: rgb(245, 245, 245);
+                    font-family: Arial, Helvetica, sans-serif;
                 }
 
                 ul.menubar {
@@ -23,7 +24,9 @@
                 ul.menubar > li {
                     float: left;
                 }
-
+                ul {
+                    margin-block-start: 0px;
+                }
                 li.dropdown > a, .dropbtn {
                     display: inline-block;
                     color: white;
@@ -91,18 +94,19 @@
                     margin-bottom: 10px;
                     margin-right: 10px;
                     padding-right: 10px;
-                 
                 }
                 .block > h3{
                     margin: 0;
-                    padding: 0;
+                    margin-block-end: 15px;
                 }
-                .block > p{
+                .block > *:not(:first-child) {
                     margin: 0;
-                    padding: 0;
                     padding-right: 15px;
                     position: relative;
-                    left:15px;
+                    left: 15px;
+                }
+                .block > ul{
+                    padding-left:30px;
                 }
                 .nav  a{
                     display: inline-block;

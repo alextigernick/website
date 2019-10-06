@@ -19,7 +19,6 @@
 <div class="block">
     <H3>Testing and benchmarking the all powerful CE amplifier</H3>
     <p>
-        <br>
         Step 1: While building circuit place the transistor in backwards.<br>
         Step 2: Test circuit and assume strange numbers are just a fluke.<br>
         Step 3: Notice the step 1 error, facepalm, repeat.               <br>
@@ -27,24 +26,26 @@
         <br>
         To verify that the transistor is operating correctly and that you skipped step 1, the voltages on its pins can be used. The voltage from the base to the emitter should be about 0.7 V (this is a typical value for all BJTs)
         And for this case the voltage from collector to emitter should be about 1.1 V although the bottom cutoff is around 0.2 V before the bjt goes into saturation. From the values below you can see the values were pretty spot on for this lab.
-        <table>
-            <tr>
-                <th>Pin</th>
-                <th>Voltage</th>
-            </tr>
-            <tr>
-                <td>Base</td>
-                <td>1.79 V</td>
-            </tr>
-            <tr>
-                <td>Collector</td>
-                <td>5.69 V</td>
-            </tr>
-            <tr>
-                <td>Emitter</td>
-                <td>1.09 V</td>
-            </tr>
-        </table>
+    </p>
+    <table>
+        <tr>
+            <th>Pin</th>
+            <th>Voltage</th>
+        </tr>
+        <tr>
+            <td>Base</td>
+            <td>1.79 V</td>
+        </tr>
+        <tr>
+            <td>Collector</td>
+            <td>5.69 V</td>
+        </tr>
+        <tr>
+            <td>Emitter</td>
+            <td>1.09 V</td>
+        </tr>
+    </table>
+    <p>
         <br><br>
         While it would have been fun to see an electrolytic capacitor explode, that didn't happen here. The polarities in a circuit this small were have been relatively easy to figure out, and were also verified with LTSpice.
         <br><br>
@@ -53,105 +54,110 @@
         <br>
         The gain for this 1kHz signal is clearly about 50 V/V but that gain varies drastically with both load resistance and frequency. The gain value for a fairly broad spread of load resistance can be seen in the table below, and the very low resolution graph under that.
         <br>
-        <table>
-            <tr>
-                <th>Load Resistance</th>
-                <th>Voltage Gain</th>
-            </tr>
-            <tr>
-                <td>10 Ω</td>
-                <td>1.84 V/V</td>
-            </tr>
-            <tr>
-                <td>100 Ω</td>
-                <td>12.76 V/V</td>
-            </tr>
-            <tr>
-                <td>1 kΩ</td>
-                <td>53.5 V/V</td>
-            </tr>
-            <tr>
-                <td>10 kΩ</td>
-                <td>75 V/V</td>
-            </tr>
-            <tr>
-                <td>100 kΩ</td>
-                <td>75 V/V</td>
-            </tr>
-        </table>
+    </p>
+    
+    <table>
+        <tr>
+            <th>Load Resistance</th>
+            <th>Voltage Gain</th>
+        </tr>
+        <tr>
+            <td>10 Ω</td>
+            <td>1.84 V/V</td>
+        </tr>
+        <tr>
+            <td>100 Ω</td>
+            <td>12.76 V/V</td>
+        </tr>
+        <tr>
+            <td>1 kΩ</td>
+            <td>53.5 V/V</td>
+        </tr>
+        <tr>
+            <td>10 kΩ</td>
+            <td>75 V/V</td>
+        </tr>
+        <tr>
+            <td>100 kΩ</td>
+            <td>75 V/V</td>
+        </tr>
+    </table>
+    <p>
         <br>
         <image style="border-radius: 18px; padding: 5px; width: 600px;" src="rgain.png"/><br><br>
         As can be seen the gain drastically decreases as the load resistance decreases. In order to fix this when going into the 8 ohm speaker there will be a need for a buffer, but thats the subject of lab 3.
         <br><br>
         The gain doesn't only vary with resistance but also with input frequency. See below.
         <br>
-        <table>
-            <tr>
-                <th>Frequency</th>
-                <th>Voltage Gain</th>
-                <th>Gain(dB)</th>
-            </tr>
-            <tr>
-                <td>100 Hz</td>
-                <td>11.25 V/V</td>
-                <td>21.02 dB</td>
-            </tr>
-            <tr>
-                <td>300 Hz</td>
-                <td>23.75 V/V</td>
-                <td>27.5 dB</td>
-            </tr>
-            <tr>
-                <td>1 kHz</td>
-                <td>50 V/V</td>
-                <td>33.4 dB</td>
-            </tr>
-            <tr>
-                <td>3 kHz</td>
-                <td>55 V/V</td>
-                <td>34.8 dB</td>
-            </tr>
-            <tr>
-                <td>10 kHz</td>
-                <td>53.6 V/V</td>
-                <td>34.6 dB</td>
-            </tr>
-            <tr>
-                <td>30 kHz</td>
-                <td>53.6 V/V</td>
-                <td>34.6 dB</td>
-            </tr>
-            <tr>
-                <td>100 kHz</td>
-                <td>56.7 V/V</td>
-                <td>35.1 dB</td>
-            </tr>
-            <tr>
-                <td>300 kHz</td>
-                <td>57.8 V/V</td>
-                <td>35.21 dB</td>
-            </tr>
-            <tr>
-                <td>1 MHz</td>
-                <td>53.2 V/V</td>
-                <td>34.5 dB</td>
-            </tr>
-            <tr>
-                <td>3 MHz</td>
-                <td>38.75 V/V</td>
-                <td>31.8 dB</td>
-            </tr>
-            <tr>
-                <td>10 MHz</td>
-                <td>5 V/V</td>
-                <td>14 dB</td>
-            </tr>
-        </table>
+    </p>
+    <table>
+        <tr>
+            <th>Frequency</th>
+            <th>Voltage Gain</th>
+            <th>Gain(dB)</th>
+        </tr>
+        <tr>
+            <td>100 Hz</td>
+            <td>11.25 V/V</td>
+            <td>21.02 dB</td>
+        </tr>
+        <tr>
+            <td>300 Hz</td>
+            <td>23.75 V/V</td>
+            <td>27.5 dB</td>
+        </tr>
+        <tr>
+            <td>1 kHz</td>
+            <td>50 V/V</td>
+            <td>33.4 dB</td>
+        </tr>
+        <tr>
+            <td>3 kHz</td>
+            <td>55 V/V</td>
+            <td>34.8 dB</td>
+        </tr>
+        <tr>
+            <td>10 kHz</td>
+            <td>53.6 V/V</td>
+            <td>34.6 dB</td>
+        </tr>
+        <tr>
+            <td>30 kHz</td>
+            <td>53.6 V/V</td>
+            <td>34.6 dB</td>
+        </tr>
+        <tr>
+            <td>100 kHz</td>
+            <td>56.7 V/V</td>
+            <td>35.1 dB</td>
+        </tr>
+        <tr>
+            <td>300 kHz</td>
+            <td>57.8 V/V</td>
+            <td>35.21 dB</td>
+        </tr>
+        <tr>
+            <td>1 MHz</td>
+            <td>53.2 V/V</td>
+            <td>34.5 dB</td>
+        </tr>
+        <tr>
+            <td>3 MHz</td>
+            <td>38.75 V/V</td>
+            <td>31.8 dB</td>
+        </tr>
+        <tr>
+            <td>10 MHz</td>
+            <td>5 V/V</td>
+            <td>14 dB</td>
+        </tr>
+    </table>
+    <p>
         <br>
         <image style="border-radius: 18px; padding: 5px; width: 600px;" src="bode.png"/><br><br>
         From this info the 3dB bandwidth can seen to be from 1 kHz to 3 MHz. This is a farily standard measure of amplifiers because its the input frequencies which will still have 50% of the total power gain, typically marking the sharp falloff on the left and right on the chart above.<br><br>
 
         This CE amplifier appears to do a fairly good job for audio frequencies, the next lab will use a buffer amp to fix the low resistance gain problems. Ta ta for now.
-        </p>
+    </p>
 </div>
 %include /footer.html%
