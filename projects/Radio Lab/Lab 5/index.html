@@ -1,0 +1,100 @@
+%include /header.html%
+<title>Lab 5</title>
+<H1>
+    Lab 5: RF Amplifier
+</H1>
+<div class="block">
+    <H3>Introduction</H3>
+    <p>
+        For reference, <a href="manual.pdf">here</a> is the lab manual that was followed.
+        The amplifier analyzed here is essentially a common emitter amp utilizing a JFET instead of a BJT. That makes it a common source amplifier.
+        The benefit there is that the input resistance to a FET can be arbitrarily large as unlike a BJT the conduction only depends on voltage instead of current.
+        
+        <br><br>
+        Here we use a JFET as they are more static tolerant than MOSTFETS for the high frequency transistors.
+        Most of the work was done in the pre-lab, this work just verifies the simulation.
+    </p>
+</div>
+<div class="block">
+    <H3>CS Amplifier</H3>
+    <p>
+        The benefit of this new type of amplifier is that it works at extremely small input amplitudes, but this doesn't change the metrics by which we judge the amplifier. As in lab 1 the gain is tested against the load resistance.
+        The gain for this system is heavily influenced by the addition of an RF choke to the voltage supply of the system. You can see this trend in the table below.
+    </p>
+    <table>
+        <tr>
+            <th>Load resistance</th>
+            <td>1 Mohm</td>
+            <td>10 Kohms</td>
+            <td>1 Kohm</td>
+        </tr>
+        <tr>
+            <th>Gain with RFC</th>
+            <td>4.81 V/V</td>
+            <td>4.97 V/V</td>
+            <td>3.64 V/V</td>
+        </tr>
+        <tr>
+            <th>Gain w/o RFC</th>
+            <td>3.18 V/V</td>
+            <td>2.95 V/V</td>
+            <td>2.20 V/V</td>
+        </tr>
+    </table>
+    <p>
+        This is just another biased transistor so obviously we care about the Q-Point. This particular circuit sits with a Vds of 8.37V and Id 0.5mA.
+        This Vds being so close to Vcc is very good as it allows for large voltage swings.
+    </p>
+</div>
+<div class="block">
+    <H3>CS-CE Amplifier</H3>
+    <p>
+        As with all the other amps we've investigated, its only part of the full system.
+        To get a large enough voltage gain for our detector the signal out of this CS amp is fed into a CE amplifier.
+        This CE amp is fairly similar to the other one we investigated, just biased so that the Q point has Vce at 2 volts and Ic at 3.5mA.
+        Putting this new two stage amp against an array of load resistances gets us the table below.<br>
+    </p>
+    <br>
+    <table>
+        <tr>
+            <th>Load resistance</th>
+            <td>1 Mohm</td>
+            <td>100 Kohms</td>
+            <td>10 Kohms</td>
+            <td>1 Kohm</td>
+            <td>100 ohms</td>
+        </tr>
+        <tr>
+            <th>Gain(V/V)</th>
+            <td>98.8 V/V</td>
+            <td>97.8 V/V</td>
+            <td>95.3 V/V</td>
+            <td>81.9 V/V</td>
+            <td>27 V/V</td>
+        </tr>
+        <tr>
+            <th>Gain(dB)</th>
+            <td>39.9 dB</td>
+            <td>39.8 dB</td>
+            <td>39.6 dB</td>
+            <td>38.3 dB</td>
+            <td>28.6 dB</td>
+        </tr>
+    </table>
+    <br>
+    <p>
+        Can't let all that data just languish in a table so have this plot below.
+        <br><image style="border-radius: 18px; padding: 5px; width: 600px;" src="gg.png"/><br>
+    </p>
+</div>
+<div class="block">
+    <H3>Conclusions and Reflections</H3>
+    <p>
+        Primary reflection from this lab is that I need to take more pictures. God I'm bad at this.<br><br>
+        
+        Throwing this pre-amp onto the full circuit constructed at the end of last lab (biased diode into LM386) gives use most of a full radio.
+        The only thing missing is an antenna and a way to select the frequency (although this radio will never have to select the frequency, aren't many AM stations in auburn so who cares).
+        Full end to end sound check of this "radio" was a bit crackly but it wasn't the best setup breadboard so it was likely just due to long leads and no ground planes.
+    </p>
+</div>
+%include /footer.html%
