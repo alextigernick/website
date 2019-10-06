@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <head>
+        <link rel="icon" type="image/png" href="/favicon.png">
+        <style>
+                body {
+                    background-color: #0D0221;
+                    margin: 0;
+                    padding: 0;
+                    color: rgb(245, 245, 245);
+                    font-family: Arial, Helvetica, sans-serif;
+                }
+
+                ul.menubar {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                    background-color: #333;
+                    
+                }
+
+                ul.menubar > li {
+                    float: left;
+                }
+                ul {
+                    margin-block-start: 0px;
+                }
+                li.dropdown > a, .dropbtn {
+                    display: inline-block;
+                    color: white;
+                    padding: 16px;
+                    text-decoration: none;
+                    font-size: 16px;
+                    height: 48px;
+                }
+
+                ul.menubar > li > a:hover, .dropdown:hover .dropbtn {
+                    background-color: rgb(80, 80, 80);
+                }
+
+                ul.menubar > li.dropdown {
+                    display: inline-block;
+                }
+
+                .dropdown-content {
+                    display: none;
+                    position: absolute;
+                    background-color: rgb(80, 80, 80);
+                    min-width: 160px;
+                    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                    z-index: 1;
+                }
+                a {
+                    color:rgb(167, 166, 166);
+                }
+                .dropdown-content a {
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                    text-align: left;
+                    color: white;
+                }
+
+                .dropdown-content a:hover {
+                    background-color: rgb(100, 100, 100);
+                }
+
+                .dropdown:hover .dropdown-content {
+                    display: block;
+                }
+                .noselect {
+                    -webkit-touch-callout: none; /* iOS Safari */
+                        -webkit-user-select: none; /* Safari */
+                        -khtml-user-select: none; /* Konqueror HTML */
+                        -moz-user-select: none; /* Firefox */
+                            -ms-user-select: none; /* Internet Explorer/Edge */
+                                user-select: none; /* Non-prefixed version, currently
+                                                    supported by Chrome and Opera */
+                    }
+                .content{
+                    margin: 10px;
+                    padding: 0px;
+                    max-width: 800px;
+                }
+
+                .block{
+                    border: solid rgb(36, 4, 94);
+                    background-color: rgb(25, 4, 66);
+                    border-radius: 5px;
+                    margin: 0px auto;
+                    padding:  10px;
+                    margin-bottom: 10px;
+                    margin-right: 10px;
+                    padding-right: 10px;
+                }
+                .block > h3{
+                    margin: 0;
+                    margin-block-end: 15px;
+                }
+                .block > *:not(:first-child) {
+                    margin: 0;
+                    padding-right: 15px;
+                    position: relative;
+                    left: 15px;
+                }
+                .block > ul{
+                    padding-left:30px;
+                }
+                .nav  a{
+                    display: inline-block;
+                    padding: 0;
+                    margin: 0;
+                    padding-right: 10px;
+                }
+                .nav h2{
+                    padding: 0;
+                    margin: 0;    
+                }
+                .a_no {
+                    text-decoration: none;
+                }
+                pre {
+                    border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;
+                }
+                table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                }
+
+                td, th {
+                border: 1px solid rgb(54, 16, 122);
+                text-align: left;
+                padding: 8px;
+                }
+
+                tr:nth-child(even) {
+                background-color: #0D0221;
+                }
+        </style>
+    </head>
+    <body>
+        <div class="noselect">
+            <ul class="menubar">
+                <li class="dropdown"><a href="/"><image src="/home.png" alt="Home" height="48px" style="padding-right:10px;"/></a></li>
+                <li class="dropdown"><a href="/Bio/"><p>Bio</p></a></li>
+                <li class="dropdown">
+                    <a href = "/projects/Radio Lab/" class="dropbtn"><p>Lab Projects</p></a>
+                    <div class="dropdown-content">
+                        <a href='/projects/Radio Lab/Final/'/><p>Final</p></a><a href='/projects/Radio Lab/Lab 1/'/><p>Lab 1</p></a><a href='/projects/Radio Lab/Lab 2/'/><p>Lab 2</p></a><a href='/projects/Radio Lab/Lab 3/'/><p>Lab 3</p></a><a href='/projects/Radio Lab/Lab 4/'/><p>Lab 4</p></a><a href='/projects/Radio Lab/Lab 5/'/><p>Lab 5</p></a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href = "/projects/" class="dropbtn"><p>Projects</p></a>
+                    <div class="dropdown-content">
+                        <a href='/projects/Radio Lab/'/><p>Radio Lab</p></a><a href='/projects/VHDL/'/><p>VHDL</p></a><a href='/projects/Web Server/'/><p>Web Server</p></a>
+                    </div>
+                </li>
+                <li class="dropdown"><a href="/projects/Radio Lab/Final/"><p>Final Project</p></a></li>
+            </ul>
+        </div>
+        <div class="content">
+
+<script type="text/javascript">
+    function showAxes(ctx,axes) {
+        var width = ctx.canvas.width;
+        var height = ctx.canvas.height;
+        var xMin = 0;
+        
+        ctx.beginPath();
+        ctx.strokeStyle = "rgb(128,128,128)";
+        
+        // X-Axis
+        ctx.moveTo(xMin, height/2);
+        ctx.lineTo(width, height/2);
+        
+        // Y-Axis
+        ctx.moveTo(width/2, 0);
+        ctx.lineTo(width/2, height);
+        // Starting line
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, height);
+        
+        ctx.stroke();
+    }
+    function drawPoint(ctx, y) {            
+        var radius = 3;
+        ctx.beginPath();
+        // Hold x constant at 4 so the point only moves up and down.
+        ctx.arc(4, y, radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+    function plotSineAM(ctx, xOffset, yOffset) {
+        var width = ctx.canvas.width;
+        var height = ctx.canvas.height;
+        var scale = 20;
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgb(66,44,255)";
+        // console.log("Drawing point...");
+        // drawPoint(ctx, yOffset+step);
+        
+        var x = 4;
+        var y = 0;
+        var amplitude = 30;
+        var frequency = 3;
+        //ctx.moveTo(x, y);
+        ctx.moveTo(x, 50);
+        while (x < width) {
+            y = height/2 + (amplitude-amplitude/2 * Math.sin((x+xOffset)/frequency/10)) * Math.sin((x+xOffset)/frequency);
+            ctx.lineTo(x, y);
+            x++;
+        }
+        ctx.stroke();
+        ctx.save();
+        drawPoint(ctx, y);
+        ctx.stroke();
+        ctx.restore();
+    }
+    function plotSine(ctx, xOffset, yOffset) {
+        var width = ctx.canvas.width;
+        var height = ctx.canvas.height;
+        var scale = 20;
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgb(255,44,255)";
+        // console.log("Drawing point...");
+        // drawPoint(ctx, yOffset+step);
+        
+        var x = 4;
+        var y = 0;
+        var amplitude = 15;
+        var frequency = 30;
+        //ctx.moveTo(x, y);
+        ctx.moveTo(x, 50);
+        while (x < width) {
+            y = height/2-30 + amplitude * Math.sin((x+xOffset)/frequency);
+            ctx.lineTo(x, y);
+            x++;
+        }
+        ctx.stroke();
+        ctx.save();
+        drawPoint(ctx, y);
+        ctx.stroke();
+        ctx.restore();
+    }
+    function draw() {
+        var canvas = document.getElementById("am");
+        var context = canvas.getContext("2d");
+        context.clearRect(0, 0, 500, 500);
+        showAxes(context);
+        context.save();            
+        
+        plotSineAM(context, step, 50);
+        plotSine(context, step, 50);
+        context.restore();
+        
+        step += 1;
+        window.requestAnimationFrame(draw);
+    }
+    var step = -1;
+</script>
+<title>Lab 1</title>
+<H1>
+    Lab 1: Test and Measurement
+</H1>
+<div class="block">
+    <H3>Introduction</H3>
+    <p>
+        For reference, <a href="manual.pdf">here</a> is the lab manual that was followed. Essentially this lab just introduces the bench equipment to be used in the rest of this lab. Getting used to this equipment is essential for reasonable completion speeds of labs in the future.
+        <br><br>
+        The lab consists of generating signals on the function generator and measuring them on the oscope and utilizing various fancy features of the oscope like spectrum analysis.
+        <br><br>
+        The oscope is a <a href="https://www.tek.com/datasheet/mixed-domain-oscilloscopes">Tektronix MDO3032</a>. It can be bought for the low low price of $3,660 (It's probably worth it, I'm just a cheapskate).<br> <image style="border-radius: 8px; padding: 5px; width: 200px;" src="oscope.png"/>
+        <br><br>
+        The fgen is a <a href="https://www.tek.com/arbitrary-function-generator/afg1000-arbitrary-function-generator">Tektronix AFG1062</a>. Sporting up to 60 MHz bandwidth and a a very nice modulation interface with a huge range of options, this hot piece of test equipment definitely gets my thumbs up. I need to find a use of a 1 uHz output, what do you even use a period of about 11.5 days for?  <br> <image style="border-radius: 8px; padding: 5px; width: 200px;" src="fgen.png"/>
+    </p>
+</div>
+<div class="block">
+    <H3>Simple sine waves</H3>
+    <p>
+        Getting acquainted with the equipment obviously has to start somewhere and thats at generating/measuring simple sine waves. I'll spare you the minutia of all the buttons that need pressing. Basically just set the fgen to a 10kHz sine wave and the 2Vpp, and connect the two channel ones with a BNC cable. 
+        
+        <br><br>Getting the signal to show up intelligibly on the Oscope requires adjusting both the timebase and the trigger level(and possibly the trigger channel). Trigger is what tells the oscope where to synchronize the scrolling on the screen. 
+        Whenever the trigger condition is met the signal is moved to the horizontal position specified.
+        
+        <br><br> Matching input impedance is important for accurate output by the fgen, so the oscope's impedance was adjusted to 50Ω to match the BNC.
+        For a 10kHz signal like this, a decent timebase setting is about a fifth of the period of the signal or 20μs. This is because the there are about 10 horizontal divisions on the screen so this will show two full waves.
+        
+        <br><br>The signal observed on the oscope after all this can be seen on below. <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="tek00000.png"/>
+        <br><br>In theory measuring this signal on the AC setting of the multimeter would display 1.414 volts as this is the RMS value of a 2 volt wave. As the DMM is exceptionally crusty and possible impedance mismatching this comes out as 1.61 volts. The lesson here is don't trust your multimeter or your bench equipment. This is a lesson that will really rear its ugly head in Lab 3.
+    </p>
+</div>
+<div class="block">
+    <H3>Not so simple sine waves(AM)</H3>
+    <p>
+        Ok first thing first. What even is AM? I'm so glad you asked. AM is Amplitude modulation. Basically you take a frequency a radio is really good at picking up, typically way outside of human hearing range, and then you vary the amplitude with a data signal, one in the range of human hearing.
+        <canvas id="am" width="500" height="100"></canvas><script>draw();</script><br>
+        <a href="https://gist.github.com/gkhays/e264009c0832c73d5345847e673a64ab">99.9% of this JS came from here, credit is due</a>
+        <br><br>
+        We do this to waves because its remarkably simple to decode. One the carrier wave is picked up by the radio, all thats needed is a measurement of the gain to get the data waveform. It has issues with noise because any thing generating noise is going to cause amplitude changes, whereas FM won't.
+        When watching these waves on an oscope, the only wave of interest is the intelligence wave so the timebase should be set to about 1/5th of its period. In the case of a 1kHz wave that would be about 200μs.
+        <br></br>
+        The handy dandy function generator can generate the AM waves via the "mod" button. This is called 50% modulation depth as it only impacts half of the max amplitude of the carrier. The waveform it creates can be seen below(ignore the red stuff, thats for later)
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="tek00004.png"/>
+        <br></br>
+        On this very nice oscope we have a spectrum analyzer via the RF port. The amplitude needs to be fairly low in order to not blow it out so first we verify the amplitude is less than 1 volt on a normal channel. Press some more buttons and viola, you get a picture about like whats below.
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="rf.png"/>
+        <br><br>
+        The three peaks happen at the carrier frequency and the carrier ± the intelligence. This is because the two waveforms are multiplied together plus some dc offset to generate the am waves. From the spectrum analyzer we can get the amplitude of each sideband which is in the tables below.<br>
+        </p>
+        <br>
+        <table>
+            <tr>
+                <th></th>
+                <th>Frequency</th>
+                <th>dBm level</th>
+                <th>Voltage Amplitude</th>
+            </tr>
+            <tr>
+                <th>Lower Sideband</th>
+                <td>1.229 MHz</td>
+                <td>-33.6 dBm</td>
+                <td>6.6 mV</td>
+            </tr>
+            <tr>
+                <th>Carrier</th>
+                <td>1.23 MHz</td>
+                <td>-21.6 dBm</td>
+                <td>26.3 mV</td>
+            </tr>
+            <tr>
+                <th>Upper Sideband</th>
+                <td>1.231 MHz</td>
+                <td>-33.6 dBm</td>
+                <td>6.6 mV</td>
+            </tr>
+        </table>
+        <p><center><br>Amplitudes at 50% modulation depth</center></p>
+        <br>
+        <table>
+            <tr>
+                <th></th>
+                <th>Frequency</th>
+                <th>dBm level</th>
+                <th>Voltage Amplitude</th>
+            </tr>
+            <tr>
+                <th>Lower Sideband</th>
+                <td>1.229 MHz</td>
+                <td>-27.6 dBm</td>
+                <td>13.18 mV</td>
+            </tr>
+            <tr>
+                <th>Carrier</th>
+                <td>1.23 MHz</td>
+                <td>-21.6 dBm</td>
+                <td>26.3 mV</td>
+            </tr>
+            <tr>
+                <th>Upper Sideband</th>
+                <td>1.231 MHz</td>
+                <td>-27.6 dBm</td>
+                <td>13.18 mV</td>
+            </tr>
+        </table>
+        <p><center><br>Amplitudes at 100% modulation depth</center></p>
+        <p><br>This spectrum analyzer is great for verifying the accuracy and noise levels of high frequency signals. The normal channels struggle to do this accurately at high frequencies</p>
+        
+</div>
+<div class="block">
+        <H3>Not so simple sine waves(AM) 2: The Fast and the Fourier</H3>
+        <p>
+            So this oscope not only has the spectrum analyzer from the previous part but it also has the ability to do math on the data coming in to a normal channel. One of these math functions is an fft. While the binning in an fft can cause some data loss its a very useful tool for when the input signal is too large to use the spectrum analyzer. It's max frequency is also substantially lower.
+            <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="tek00005.png"/>
+            <br><br>
+            As before two peaks can be seen.
+        </p>
+        <br>
+        <table>
+            <tr>
+                <th></th>
+                <th>Frequency</th>
+                <th>dB level</th>
+                <th>Voltage Amplitude</th>
+            </tr>
+            <tr>
+                <th>Lower Sideband</th>
+                <td>49 kHz</td>
+                <td>-47 dB</td>
+                <td>6.317 mV</td>
+            </tr>
+            <tr>
+                <th>Carrier</th>
+                <td>50 kHz</td>
+                <td>-35.14 dB</td>
+                <td>24.75 mV</td>
+            </tr>
+            <tr>
+                <th>Upper Sideband</th>
+                <td>51 MHz</td>
+                <td>-47 dB</td>
+                <td>6.317 mV</td>
+            </tr>
+        </table>
+        <p><center><br>Amplitudes at 50% modulation depth</center></p>
+        <br>
+        <table>
+                <tr>
+                    <th></th>
+                    <th>Frequency</th>
+                    <th>dB level</th>
+                    <th>Voltage Amplitude</th>
+                </tr>
+                <tr>
+                    <th>Lower Sideband</th>
+                    <td>49 kHz</td>
+                    <td>-41 dB</td>
+                    <td>12.6 mV</td>
+                </tr>
+                <tr>
+                    <th>Carrier</th>
+                    <td>50 kHz</td>
+                    <td>-35.11 dB</td>
+                    <td>24.83 mV</td>
+                </tr>
+                <tr>
+                    <th>Upper Sideband</th>
+                    <td>51 MHz</td>
+                    <td>-41 dB</td>
+                    <td>12.6 mV</td>
+                </tr>
+            </table>
+        <p><center><br>Amplitudes at 100% modulation depth</center></p>
+        <p>The voltages are slightly different but that can likely be chocked up to lower accuracy on the primary channels or impedance differences.</p>
+</div>
+
+</div>
+</body>
+</html>
