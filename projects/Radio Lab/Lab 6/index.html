@@ -1,0 +1,59 @@
+%include /header.html%
+<title>Lab 6</title>
+<H1>
+    Lab 6: Square Loop Antennas
+</H1>
+<div class="block">
+    <H3>Introduction</H3>
+    <p>
+        For reference, <a href="manual.pdf">here</a> is the lab manual that was followed.
+        <br><br>
+        So we've built basically a whole radio, but what use is a radio with no antenna?
+        The lab here will be exploring a very large and simple type of antenna, 
+        but our final project will explore smaller/better antennas.
+        No promises on it actually being better.
+        <br><br>
+        The basics here are that an antenna is just an inductor, but as our radio has no filtering stage, we have to also tune
+        this antenna by putting it into an LC circuit.
+    </p>
+</div>
+<div class="block">
+    <H3>Antenna Construction</H3>
+    <p>
+        As we need to put this antenna in an LC circuit whose resonance will be the station that is received the strongest,
+        our antenna becomes limited in design. The inductance must be in a range that our trimmer capcitor can combine with to be a tunable antenna.
+        A good value for the capacitor in our kit comes out to around 14 wraps around a pizza box. Doing this wrapping can be a bit tedious
+        as pizza boxes aren't the most willing subjects.
+    </p>
+</div>
+<div class="block">
+    <H3>Antenna Performance</H3>
+    <p>
+        Measuring the inductance of the antenna is key to seeing if it will work. The lab lacks an LCR meter and so the oscilliscope was used.
+        By connecting the LC to the RF port of the Oscope, a peak could be seen at 1230 MHz. This peak corresponds to the received station.
+        By tuning the capacitor the amplitude of the station changed. Getting it to peak in the mid range of the cap means that the antenna has
+        an appropriate inductance. Sadly we failed to take picutres of the oscope here, but there was a clear peak at the stations frequency that
+        changed amplitude with the capacitor. Our antenna peaked around -75 dBm which is prety abysmal.
+    </p>
+</div>
+<div class="block">
+    <H3>A working radio</H3>
+    <p>
+        As mentioned above, we only received about -75 dBm which is way too small of a signal to pass the biased diode in the original design.
+        To get the radio working, we had to add a CC stage to the RF amp to buffer the ouput of the CS. This option was briefly mentioned in the RF amp manual
+        but exact values were just a matter of experimentation. Correct values will be covered for the final project.
+    </p>
+</div>
+<div class="block">
+    <H3>Conclusions and Reflections</H3>
+    <p>
+        Primary reflection from this lab is that I need to take more pictures. This seems to be a recurring problem<br><br>
+        
+        Making radios is hard and in the end, the simplicity of the biased diode really didn't pay off. 
+        The antenna works pretty well though considering its just wire and a pizza box.
+        It's size is annoying but as I mentioned above there are approaches to fix that.
+        The final project may need to switch back to the CFP to prevent this problem from happening in the future.
+
+    </p>
+</div>
+%include /footer.html%

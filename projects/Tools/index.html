@@ -1,0 +1,16 @@
+%include /header.html%
+<title>Tool Index</title>
+<H1>
+    Various tools I've made to automate my current tedium
+</H1>
+<div class="block">
+<style>
+    .superSecret_project a {
+        font-size:25px;
+    }
+</style>
+<div class="superSecret_project">
+    %pythonString ret=list_dir("/projects/Tools/")%
+</div>
+</div>
+%include /footer.html%

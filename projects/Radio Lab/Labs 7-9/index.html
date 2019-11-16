@@ -1,0 +1,108 @@
+%include /header.html%
+<title>Labs 7-9</title>
+<H1>
+    Labs 7-9: Heterodyne radio
+</H1>
+<div class="block">
+    <H3>Introduction</H3>
+    <p>
+        For reference, <a href="manual1.pdf">here</a>, <a href="manual2.pdf">here</a>, and <a href="manual3.pdf">here</a> are the lab manuals that were followed.
+        <br><br>
+        While the basic radio is great, it doesn't select stations at all. This means that two stations on adjacent bands would likely play over each other.
+        There may be some freaks out there who want to listen to two talk shows at once, but it isn't me so filtering is an important step
+        <br><br><i>Note: Due to how horrible our antenna is, we will likely only pick up the one strong station so this doesn't really matter
+        but the theory is of interest for real radios with decent antennas</i>
+    </p>
+</div>
+<div class="block">
+    <H3>Lab 7: Bandpass Filters</H3>
+    <p>
+        Filtering for a particular station is a simply a matter of filtering for the carrier wave plus and minus 5kHz.
+        This can be acheived by a bandpass filter but problematically, this would have very poor tuning capabilities, so the construction
+        would dictate the station received not the user. The next two labs fix this by changing the carrier wave down to a fixed frequency
+        regardless of the station, so for now just know that we want to filter for around 200kHz plus and minus 5kHz. This is also advantageous
+        as it reduces the necessary quality factor of the filter.
+        <br>
+        <br>
+        The bandpass constructer here is 1 stage passive filter. Won't be the highest quality but is extremely cheap. Passive bandpass filters
+        take the form of the picture below:<br>
+        <image style="border-radius: 18px; padding: 5px; width: 400px;" src="filter.png"/><br>
+
+        The filter was constructed with two different values for the resistors and tested.
+        The reults gathered are below and agree closely with theory likely only deviating due to parts being different.
+        </p>
+        <table>
+            <tr>
+                <th>Lf1</th><td>10 uH</td><td>10 uH</td>
+            </tr>
+            <tr>
+                <th>Cf1</th><td>0.069 uF</td><td>0.069 uF</td>
+            </tr>
+            <tr>
+                <th>RL,RS</th><td>100 Ω</td><td>1k Ω</td>
+            </tr>
+            <tr>
+                <th>Fres</th><td>202 kHz</td><td>208 kHz</td>
+            </tr>
+            <tr>
+                <th>Flow</th><td>181 kHz</td><td>197 kHz</td>
+            </tr>
+            <tr>
+                <th>FHigh</th><td>241 kHz</td><td>221 kHz</td>
+            </tr>
+            <tr>
+                <th>BW</th><td>25.5 kHz</td><td>2.7 kHz</td>
+            </tr>
+            <tr>
+                <th>Q</th><td>7.88</td><td>75.52</td>
+            </tr>
+        </table>
+</div>
+<div class="block">
+    <H3>Lab 8: Mixer</H3>
+    <p>
+        By exploiting some high order terms in the functionality of a bjt, two waves can be subtracted to move the center frequency to difference of two waves.
+        Using this in a radio means that a local oscillator can be combined with the incoming signal to move the signal down to their difference. So if we want to received
+        1230 kHz, we set the LO to 1022 kHz and the mixer will move the intelligence down to 208 kHz, exactly the center frequency of our bandpass filter.
+        Making the LO is the focus of lab 8, here we just build the mixer. Another channel on the fgen acted as the LO for this lab.
+        <br><br>
+        The circuit of a mixer can be seen here:
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="mixer.png"/><br>
+        Building and testing this circuit yields the output below, with a clear peak at the IF of 200 kHz but also a huge number of other peak:
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="tek00000.png"/><br>
+        To fix this abundance of peaks, the filter from Lab 7 was added yielding this:
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="tek00002.png"/><br>
+        As can be seen, the IF is now only one a few signals. With the only one larger being at the LO, which is not of concern as it has no audio signal to distort the desired signal.<br><br>
+        An easy success.
+    </p>
+</div>
+<div class="block">
+    <H3>Lab 9: The LO</H3>
+    <p>
+        While it seems like the two labs above could produce a working het radio, they would be tethered to a function generator which isn't particularly useful.
+        <br><br>
+
+        The oscillator design to be used here is a hartley oscillator which you can read about <a href="https://en.wikipedia.org/wiki/Hartley_oscillator">here</a> if you care.
+        Just know it causes rail to rail swings of an output via a transistor and a bunch of passives. The circuit below is the schematic followed.
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="osc.png"/><br>
+        It generates a pretty awful sine wave as can be seen here:
+        <br><image style="border-radius: 18px; padding: 5px; width: 400px;" src="tek00004.png"/><br>
+        This will have high frequncy components that will cause the mixer to do strange things but no quick solutions were found in lab that made it a decent sine wave across the full range.
+        Our oscillator puts out a signal anywhere between 1 MHz and 1.55 MHz depending on the tuning of the capacitor. This is adequate for the stations we want to receive.
+    </p>
+</div>
+<div class="block">
+    <H3>Conclusions and Reflections</H3>
+    <p>
+        We put the full thing together and it just didnt have the gain.
+        Adding an additional RF amp after these het stages rectified that but it was still extremely finnicky
+        to tune to a station and caused the overall system to be rather sensitive to random problems.
+        The biggest culprit is likely the single stage passive filter both attenuating the signal too much and not attenuating the noise enough.
+        Fixing this would be a matter of switching to an active filter or using a ton of additional stages.
+        <br><br>
+        This won't see any further developments as we have to move on to the final project but it was a good introduction to how real radios work.
+        
+
+    </p>
+</div>
+%include /footer.html%
