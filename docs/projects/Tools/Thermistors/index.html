@@ -163,20 +163,44 @@
         </div>
         <div class="content">
 
-<title>Radio lab index</title>
-<H1>
-    ELEC 3030: Radio Lab
-</H1>
-<div class="block">
-<style>
-    .superSecret_project a {
-        font-size:25px;
-    }
-</style>
-<div class="superSecret_project">
-    <a href='/projects/Radio Lab/Final/'/><p>Final</p></a><a href='/projects/Radio Lab/Lab 1/'/><p>Lab 1</p></a><a href='/projects/Radio Lab/Lab 2/'/><p>Lab 2</p></a><a href='/projects/Radio Lab/Lab 3/'/><p>Lab 3</p></a><a href='/projects/Radio Lab/Lab 4/'/><p>Lab 4</p></a><a href='/projects/Radio Lab/Lab 5/'/><p>Lab 5</p></a><a href='/projects/Radio Lab/Lab 6/'/><p>Lab 6</p></a><a href='/projects/Radio Lab/Labs 7-9/'/><p>Labs 7-9</p></a>
-</div>
-</div>
+<title>Thermistor</title>
+This tool generates a lookup table to convert the value from an N bit adc to an actual temperature.
+<form>
+<table onsubmit="go();" id="m1">
+    <tr><th>β:</th><td><input type="number" step="any" name="beta" value="3950"></td></tr>
+    <tr><th>Resistance @ 25°C:</th><td><input type="number" step="any" name="resistance" value="100000"></td></tr>
+    <tr><th>Number of bits:</th><td><input type="number" step="1" name="num" value="10"></td></tr>
+    <tr><th>High side resistance:</th><td><input type="number" step="any" name="hresist" value="47000"></td></tr>
+    <tr><th colspan="2" style="align-content: center;"><input type="submit" value="Run"></th></tr>
+</table>
+<table>
+<tr><th>Temperatures:</th><td><textarea id="arr1"></textarea></td></tr>
+</table>
+<script>
+    const element = document.querySelector('form');
+    element.addEventListener('submit', event => {
+      event.preventDefault();
+      b = parseFloat(document.forms[0].elements.beta.value);
+      r0 = parseFloat(document.forms[0].elements.resistance.value);
+      r1 = parseFloat(document.forms[0].elements.hresist.value);
+      n = parseInt(document.forms[0].elements.num.value);
+      t = []
+      for(var i = 0; i<Math.pow(2,n); i++){
+          var r = r1*((1024.0/i) - 1);
+          t.push(b/(Math.log(r/(r0*Math.pow(Math.E,-b/298.15))))-298.15);
+      }
+      console.log(t);
+
+      document.getElementById("arr1").innerHTML = "{"
+      for (val of t){
+        document.getElementById("arr1").innerHTML += val;
+        document.getElementById("arr1").innerHTML += ",";
+      }
+      
+      document.getElementById("arr1").innerHTML = document.getElementById("arr1").innerHTML.substring(0, document.getElementById("arr1").innerHTML.length - 1) +"};";
+      });
+    </script>
+</form>
 
 </div>
 </body>
