@@ -22,8 +22,9 @@ This tool generates a lookup table to convert the value from an N bit adc to an 
       n = parseInt(document.forms[0].elements.num.value);
       t = []
       for(var i = 0; i<Math.pow(2,n); i++){
-          var r = r1*((1024.0/i) - 1);
-          t.push(b/(Math.log(r/(r0*Math.pow(Math.E,-b/298.15))))-298.15);
+          var v = 5.0*i/1024.0;
+          var r = (v*r1)/(5-v);
+          t.push(b/(Math.log(r/(r0*Math.pow(Math.E,-b/298.15))))-272.15);
       }
       console.log(t);
 
