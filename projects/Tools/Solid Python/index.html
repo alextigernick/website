@@ -1,0 +1,50 @@
+%include /header.html%
+<title>Solid Python</title>
+<H1>
+    Solid Python
+</H1>
+<div class="block">
+    <H3>Setup</H3>
+    <p>
+        Install <a href="https://www.anaconda.com/distribution/">Anaconda(3.x)</a>,
+        and <a href="https://www.openscad.org/downloads.html">OpenSCAD</a>.
+        On windows OpenSCAD must be 32-bit(as of right now).
+        <br><br>
+        On windows this creates an Anaconda prompt you can search for in your start bar,
+        while on most nix distros it installs on the path. Open this prompt or on nix just a terminal.
+        <br><br>
+        This gives you access to two package managers, pip and conda.
+        Run both of these commands to install the necessary packages.
+        <br><br>
+        <code>
+            pip install solidpython<br>
+            pip install viewscad
+        </code>
+        <br><br>
+        SolidPython is essentially just a wrapper for OpenSCAD while viewscad
+        allows the rendereing of SCAD files in jupyter notebooks.
+    </p>
+</div>
+<div class="block">
+    <H3>Usage</H3>
+    <p>
+        With everything installed, you can use jupyter notebooks instead of standard python development.
+        Starting a notebook is just as simple as running <code>"jupyter notebook"</code> in a terminal/conda prompt.
+        It should open your favored web browser as an interactive python script. From the menu you can open any folders
+        or make a new notebook (from a button in the top right).<br><br>
+
+        With this new file there are cells of python code that can be indivdually run.
+        This supports modifying new sections of code without having to re-run the previous sections.
+        This is incredibly useful for debugging.<br><br>
+        For modeling my first block always handles the imports and the rendered that allows inline rendering. Like so:
+        <br><br>
+        <div class="code">
+            from solid import *<br>
+            import viewscad<br>
+            import numpy as np<br>
+            r = viewscad.Renderer()
+        </div>
+        <br><br>
+    </p>
+</div>
+%include /footer.html%

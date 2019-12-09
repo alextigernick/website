@@ -1,3 +1,81 @@
 %include /header.html%
-Seriously what would be here? Its like the third week of lab.
+<title>Final Project</title>
+<H1>
+    Final Project: PCB radio with improved RF amp
+</H1>
+<div class="block">
+    <H3>Goal</H3>
+    <ul>
+        <li>Optimize the RF amp</li>
+        <li>Design a PCB</li>
+    </ul>
+</div>
+<div class="block">
+    <H3>Optimization of the RF amp</H3>
+    <p>
+        For any amplifier there are 3 basic criterion on which it can be evaluated:
+    </p>
+        <ul>
+            <li>Gain</li>
+            <li>Distortion</li>
+            <li>Efficiency</li>
+        </ul>
+    <p>
+        Optimizing for gain in this RF amplifier requires increasing the current gain of the CS amplifier.
+        This is because the CE stage has a relatively low input impedance as it requires high biasing current.
+        To achieve this higher current gain, we use an intermediary CC stage between the CS and the CE stages.
+        When designed properly, this new stage adds 30 dB of gain.
+        Choosing component values for this amplifier be covered in optimization section of this page.
+        <br><br>
+        Distortion in the amplifier sense is typically measured by total harmonic distortion, or THD.
+        This is a measure of the relative amplitudes of the harmonics introduced by the amplifier. So if we
+        are sending in a 1 kHz signal, its a measure of the 2kHz, 3kHz, ... signals introduced. 
+        These are introduced anytime the signal is made slightly off from a sinusoid.
+        In our case this is not trivial to measure as the incoming signal is AM modulated. 
+        This means the distortion of audible frequencies has to be measured after the AM detector.
+        Fortunately spice can measure distortion so see the next section for how this was designed
+    </p>
+</div>
+<div class="block">
+    <H3>Spice driven optimization</H3>
+    <p>
+        Using spice, every component of the circuit can be optimized for the two factors we care about.
+        Distortion can be measured on the output using the spice "fourier" command to automatically calculate the
+        distortion at the intelligence frequency.
+        By sweeping component values we can locate the best values for each piece of the circuit.
+        Special care has to be taken with biasing resistors as both the ratio of the two resistors and the total magnitude matters
+        and so they cannot be adjusted independently.
+        After all that we end up the circuit schematic below.
+        <br><br>
+        <image style="border-radius: 18px; padding: 5px; width: 95%;" src="schema.png"/><br>
+        <br>The original RF amp injects 25% THD in simulation while this new amplifier is only at 2% THD.
+        Note, any resistors that were shown to be particularly sensitive were replaced with a potentiometer to allow for on the fly tuning.
+    </p>
+</div>
+<div class="block">
+    <H3>PCB layout</H3>
+    <p>
+        With the schematic designed and laid out, components have to be selected. All parts were bought from mouser.
+        In general we limited ourselves to 0805 and above for the footprints to make soldering possible.
+        <br><br>
+        Layout was done in a modular fashion by laying out each stage separately and then connecting them afterwards.
+        The full layout can be seen below and generally the signal flows from right to left. Aside from the new RF-amp, the only
+        other piece is the lm386 audio amp and a diode detector.  
+        <br><br>
+        <image style="border-radius: 18px; padding: 5px; width: 95%;" src="layout.png"/>
+        <br><br>
+    </p>
+</div>
+<div class="block">
+    <H3>Performance</H3>
+    <p>
+        The RF amp picks up substantially better in low-level environments, the exact magnitude of this increase is hard to determine
+        but it appears to be on the order of 20-25 dB over the original design.<br><br>
+        The measured THD appears to be 14%, which is a far cry from the theoretical 2% but still far better than the original system.
+        The PCB was mostly without flaws aside from a single potentiometer that failed to attenuated signals.
+        Hip-Hip-Hoorah<br><br>
+        The presentation for this is <a href="pres.pdf">here</a>. It won't make much sense without Tanner or I yapping over it but no reason not to include it.
+
+    </p>
+</div>
 %include /footer.html%

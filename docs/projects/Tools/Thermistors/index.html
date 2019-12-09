@@ -1,168 +1,209 @@
 <!DOCTYPE html>
 <html>
-    <meta charset="UTF-8">
-    <head>
-        <link rel="icon" type="image/png" href="/favicon.png">
-        <style>
-                body {
-                    background-color: #0D0221;
-                    margin: 0;
-                    padding: 0;
-                    color: rgb(245, 245, 245);
-                    font-family: Arial, Helvetica, sans-serif;
-                }
+<meta charset="UTF-8">
 
-                ul.menubar {
-                    list-style-type: none;
-                    margin: 0;
-                    padding: 0;
-                    overflow: hidden;
-                    background-color: #333;
-                    
-                }
+<head>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        body {
+            background-color: #0D0221;
+            margin: 0;
+            padding: 0;
+            color: rgb(245, 245, 245);
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-                ul.menubar > li {
-                    float: left;
-                }
-                ul {
-                    margin-block-start: 0px;
-                }
-                li.dropdown > a, .dropbtn {
-                    display: inline-block;
-                    color: white;
-                    padding: 16px;
-                    text-decoration: none;
-                    font-size: 16px;
-                    height: 48px;
-                }
+        ul.menubar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
 
-                ul.menubar > li > a:hover, .dropdown:hover .dropbtn {
-                    background-color: rgb(80, 80, 80);
-                }
+        }
 
-                ul.menubar > li.dropdown {
-                    display: inline-block;
-                }
+        ul.menubar>li {
+            float: left;
+        }
 
-                .dropdown-content {
-                    display: none;
-                    position: absolute;
-                    background-color: rgb(80, 80, 80);
-                    min-width: 160px;
-                    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-                    z-index: 1;
-                }
-                a {
-                    color:rgb(167, 166, 166);
-                }
-                .dropdown-content a {
-                    padding: 12px 16px;
-                    text-decoration: none;
-                    display: block;
-                    text-align: left;
-                    color: white;
-                }
+        ul {
+            margin-block-start: 0px;
+        }
 
-                .dropdown-content a:hover {
-                    background-color: rgb(100, 100, 100);
-                }
+        li.dropdown>a,
+        .dropbtn {
+            display: inline-block;
+            color: white;
+            padding: 16px;
+            text-decoration: none;
+            font-size: 16px;
+            height: 48px;
+        }
 
-                .dropdown:hover .dropdown-content {
-                    display: block;
-                }
-                .noselect {
-                    -webkit-touch-callout: none; /* iOS Safari */
-                        -webkit-user-select: none; /* Safari */
-                        -khtml-user-select: none; /* Konqueror HTML */
-                        -moz-user-select: none; /* Firefox */
-                            -ms-user-select: none; /* Internet Explorer/Edge */
-                                user-select: none; /* Non-prefixed version, currently
+        ul.menubar>li>a:hover,
+        .dropdown:hover .dropbtn {
+            background-color: rgb(80, 80, 80);
+        }
+
+        ul.menubar>li.dropdown {
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgb(80, 80, 80);
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        a {
+            color: rgb(167, 166, 166);
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            color: white;
+        }
+
+        .dropdown-content a:hover {
+            background-color: rgb(100, 100, 100);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently
                                                     supported by Chrome and Opera */
-                    }
-                .content{
-                    margin: 10px;
-                    padding: 0px;
-                    max-width: 800px;
-                }
+        }
 
-                .block{
-                    border: solid rgb(36, 4, 94);
-                    background-color: rgb(25, 4, 66);
-                    border-radius: 5px;
-                    margin: 0px auto;
-                    padding:  10px;
-                    margin-bottom: 10px;
-                    margin-right: 10px;
-                    padding-right: 10px;
-                }
-                .block > h3{
-                    margin: 0;
-                    margin-block-end: 15px;
-                }
-                .block > *:not(:first-child) {
-                    margin: 0;
-                    padding-right: 15px;
-                    position: relative;
-                    left: 15px;
-                }
-                .block > ul{
-                    padding-left:30px;
-                }
-                .nav  a{
-                    display: inline-block;
-                    padding: 0;
-                    margin: 0;
-                    padding-right: 10px;
-                }
-                .nav h2{
-                    padding: 0;
-                    margin: 0;    
-                }
-                .a_no {
-                    text-decoration: none;
-                }
-                pre {
-                    border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;
-                }
-                table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 90%;
-                }
+        .content {
+            margin: 10px;
+            padding: 0px;
+            max-width: 800px;
+        }
 
-                td, th {
-                border: 1px solid rgb(54, 16, 122);
-                text-align: left;
-                padding: 8px;
-                }
+        .block {
+            border: solid rgb(36, 4, 94);
+            background-color: rgb(25, 4, 66);
+            border-radius: 5px;
+            margin: 0px auto;
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            padding-right: 10px;
+        }
 
-                tr:nth-child(even) {
-                background-color: #0D0221;
-                }
-        </style>
-    </head>
-    <body>
-        <div class="noselect">
-            <ul class="menubar">
-                <li class="dropdown"><a href="/"><image src="/home.png" alt="Home" height="48px" style="padding-right:10px;"/></a></li>
-                <li class="dropdown"><a href="/Bio/"><p>Bio</p></a></li>
-                <li class="dropdown">
-                    <a href = "/projects/Radio Lab/" class="dropbtn"><p>Lab Projects</p></a>
-                    <div class="dropdown-content">
-                        <a href='/projects/Radio Lab/Final/'/><p>Final</p></a><a href='/projects/Radio Lab/Lab 1/'/><p>Lab 1</p></a><a href='/projects/Radio Lab/Lab 2/'/><p>Lab 2</p></a><a href='/projects/Radio Lab/Lab 3/'/><p>Lab 3</p></a><a href='/projects/Radio Lab/Lab 4/'/><p>Lab 4</p></a><a href='/projects/Radio Lab/Lab 5/'/><p>Lab 5</p></a><a href='/projects/Radio Lab/Lab 6/'/><p>Lab 6</p></a><a href='/projects/Radio Lab/Labs 7-9/'/><p>Labs 7-9</p></a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href = "/projects/" class="dropbtn"><p>Projects</p></a>
-                    <div class="dropdown-content">
-                        <a href='/projects/Radio Lab/'/><p>Radio Lab</p></a><a href='/projects/Tools/'/><p>Tools</p></a><a href='/projects/VHDL/'/><p>VHDL</p></a><a href='/projects/Web Server/'/><p>Web Server</p></a>
-                    </div>
-                </li>
-                <li class="dropdown"><a href="/projects/Radio Lab/Final/"><p>Final Project</p></a></li>
-            </ul>
-        </div>
-        <div class="content">
+        .block>h3 {
+            margin: 0;
+            margin-block-end: 15px;
+        }
 
+        .block>*:not(:first-child) {
+            margin: 0;
+            padding-right: 15px;
+            position: relative;
+            left: 15px;
+        }
+
+        .block>ul {
+            padding-left: 30px;
+        }
+
+        .nav a {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+            padding-right: 10px;
+        }
+
+        .nav h2 {
+            padding: 0;
+            margin: 0;
+        }
+
+        .a_no {
+            text-decoration: none;
+        }
+
+        pre {
+            border: solid gray;
+            border-width: .1em .1em .1em .8em;
+            padding: .2em .6em;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 90%;
+        }
+
+        td,
+        th {
+            border: 1px solid rgb(54, 16, 122);
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #0D0221;
+        }
+        .code {
+            background-color: rgb(36, 4, 94);
+            width: 75%;
+            padding: 8px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="noselect">
+        <ul class="menubar">
+            <li class="dropdown"><a href="/">
+                    <image src="/home.png" alt="Home" height="48px" style="padding-right:10px;" /></a></li>
+            <li class="dropdown"><a href="/Bio/">
+                    <p>Bio</p>
+                </a></li>
+            <li class="dropdown">
+                <a href="/projects/Radio Lab/" class="dropbtn">
+                    <p>Lab Projects</p>
+                </a>
+                <div class="dropdown-content">
+                    <a href='/projects/Radio Lab/Final/'/><p>Final</p></a><a href='/projects/Radio Lab/Lab 1/'/><p>Lab 1</p></a><a href='/projects/Radio Lab/Lab 2/'/><p>Lab 2</p></a><a href='/projects/Radio Lab/Lab 3/'/><p>Lab 3</p></a><a href='/projects/Radio Lab/Lab 4/'/><p>Lab 4</p></a><a href='/projects/Radio Lab/Lab 5/'/><p>Lab 5</p></a><a href='/projects/Radio Lab/Lab 6/'/><p>Lab 6</p></a><a href='/projects/Radio Lab/Labs 7-9/'/><p>Labs 7-9</p></a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="/projects/" class="dropbtn">
+                    <p>Projects</p>
+                </a>
+                <div class="dropdown-content">
+                    <a href='/projects/Radio Lab/'/><p>Radio Lab</p></a><a href='/projects/Tools/'/><p>Tools</p></a><a href='/projects/VHDL/'/><p>VHDL</p></a><a href='/projects/Web Server/'/><p>Web Server</p></a>
+                </div>
+            </li>
+            <li class="dropdown"><a href="/projects/Radio Lab/Final/">
+                    <p>Final Project</p>
+                </a></li>
+        </ul>
+    </div>
+    <div class="content">
 <title>Thermistor</title>
 This tool generates a lookup table to convert the value from an N bit adc to an actual temperature.
 <form>

@@ -14,52 +14,15 @@
     <H3 id="intro">Introduction</H3>
     <p>
         This is just describing the steps to setup my VHDL development and simulation enviroment. I'll be using will be VS code as my IDE, emacs as my styler and GHDL as my simulator and error checker. 
-        This isn't gaurunteed to work, but it did work once.
+        GHDL seems to be constantly in flux as Tristan Gingold is a powerhouse of the opensource community. These steps may not work.
     </p>
 </div>
 <div class="block">
-<H3 id="git">Compiling GHDL</H3>
+<H3 id="git">IDE setup</H3>
 <p>
-To get VScode integration working, currently GHDL has to be compiled from source. There are a few backends that are supported but I lean towards GCC due to speed.
+After building and installing the ghdl vscode extension:
 
-Below are the build steps:
-<pre><code>
-sudo apt install npm
-svn co svn://gcc.gnu.org/svn/gcc/branches/gcc-9-branch/ gcc
-git clone https://github.com/ghdl/ghdl
-git clone https://github.com/ghdl/ghdl-language-server
-cd ghdl
-mkdir build
-cd build
-../configure --with-gcc=../../gcc --prefix=/usr/local --enable-python
-make copy-sources
-mkdir gcc-objs
-cd gcc-objs
-unset LIBRARY_PATH CPATH C_INCLUDE_PATH PKG_CONFIG_PATH CPLUS_INCLUDE_PATH INCLUDE LD_LIBRARY_PATH
-../../../gcc/configure --prefix=/usr/local --enable-languages=c,vhdl \
---disable-bootstrap --disable-lto --disable-multilib --disable-libssp \
---disable-libgomp --disable-libquadmath 
-make -j8
-sudo make install
-cd ..
-make ghdllib
-sudo make install
-cd ..
-cd python
-pip3 install .
-cd ..
-cd ..
-cd ghdl-language-server
-cd ghdl-ls
-pip3 install .
-cd ..
-npm install -g vsce
-cd vscode-client
-vsce package
-code --install-extension vhdl-lsp-*.vsix
-</code></pre>
-
-Then put the code below in a file anywhere. I prefer /usr/bin/vf
+Put the code below in a file anywhere. I prefer /usr/bin/vf
 <pre><code>
 #!/bin/sh
 for i in '$@'
