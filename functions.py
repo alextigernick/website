@@ -6,3 +6,5 @@ def list_dir(x):
         if os.path.isdir(os.path.join(site_root+x, each)):
             output += "<a href='{}/'/><p>{}</p></a>".format(os.path.join(x,each),each)
     return output
+
+    
