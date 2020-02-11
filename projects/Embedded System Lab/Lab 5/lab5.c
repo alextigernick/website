@@ -16,7 +16,6 @@ uint8_t log2(uint8_t num){
 }
 
 void EXTI0_IRQHandler(){
-	GPIOB->ODR = 0x00000010;
 	for(char i = 0; i < 4; i++){
 		GPIOB->ODR = 0x000000F0 & (~(0x10 << i));
 		delay_us(100);
@@ -29,6 +28,7 @@ void EXTI0_IRQHandler(){
 		}
 	}
 	d();
+	GPIOB->ODR = 0x00000000;
 	EXTI->PR = 0x00FFFFFF;
 }
 void pinSetup() {
@@ -42,6 +42,8 @@ void pinSetup() {
 
 	GPIOC->MODER &= ~0xFFFFFFFF;
     GPIOC->MODER |=  0x55555555;
+
+	GPIOB->ODR = 0x00000000;
 }
 void countF(uint8_t *count,int num) {
     *count += num;
