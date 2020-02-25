@@ -2,9 +2,6 @@
 
 #define INS GPIOB->IDR & 0x0F;
 
-uint8_t count = 0;
-uint8_t count1 = 0;
-uint8_t ce = 0;//count enable
 uint8_t key = 0;
 
 uint8_t lu[] = {1,4,7,0xE,2,5,8,0,3,6,9,0xF,0xA,0xB,0xC,0xD};
@@ -31,24 +28,20 @@ void delay_ms(int delay) {
     TIM6->CR1 |= TIM_CR1_CEN;
     while (!(TIM6->SR & TIM_SR_UIF));
 }
-void setupTimer7() {
-	TIM7->SR = 0;	
-	TIM7->PSC =  16000-1;
-	TIM7->ARR = 100-1;
-	TIM7->CNT = 0;
-	TIM7->DIER |= TIM_DIER_UIE;
-	TIM7->CR1 |= TIM_CR1_CEN;
+void setupTimer10() {
+	TIM10->SR = 0;	
+	TIM10->PSC =  16-1;
+	TIM10->ARR = 1000-1;
+	TIM10->CCR1 = 0;
+	TIM10->CNT = 0;
+	TIM10->CCMR1 = 0x00000060;
+	//TIM10->CCMR1 &= 0xFFFFFFEC;
+	TIM10->CCER = 0x00000001;
+	TIM10->CR1 |= TIM_CR1_CEN;
+	
 }
 void display() {
-	GPIOC->ODR = ((count1 & 0x0F) << 4) | (count & 0x0F);
-}
-uint8_t countF(uint8_t *count,int num) {
-    *count += num;
-    if (*count >= 10) {
-        *count -= 10;
-		return 1;
-    }
-	return 0;
+	GPIOC->ODR = key & 0x0F;
 }
 void EXTI0_IRQHandler(){
 	uint8_t qq;
@@ -59,23 +52,8 @@ void EXTI0_IRQHandler(){
 		qq = INS;
 		if(qq != 0xF) {
 			key = lu[4*i + log_2((~qq)&0x0F)];
-			switch(key){
-				case 0:
-					ce = !ce;
-					if(ce == 0){
-						TIM7->DIER &= ~TIM_DIER_UIE; //disable interrupt;
-					}
-					else {
-						setupTimer7(); // just re do the whole setup cause I'm lazy
-					}
-					break;
-				case 1:
-					if(ce == 0){
-						count = 0;
-						count1 = 0;
-					}
-					break;
-			}
+			if (key <= 10)
+				TIM10->CCR1 = key*100;
 			break;
 		}
 	}
@@ -83,20 +61,17 @@ void EXTI0_IRQHandler(){
 	display();
 	EXTI->PR = 0x00FFFFFF;
 }
-void TIM7_IRQHandler(){
-	if(ce){
-		if(countF(&count,1)){
-			countF(&count1,1);
-		}
-		display();
-	}
-	TIM7->SR &= ~TIM_SR_UIF;
-}
+
 void pinSetup() {
     RCC->APB1ENR |= 0x00000030; //enable tim 6 and tim7
+	RCC->APB2ENR |= 0x00000008; //enable tim10
     RCC->AHBENR  |= 0x07;
     
-	GPIOA->MODER = GPIOA->MODER & 0xFFFF0000;  
+	GPIOA->MODER &= ~0x00003FFF;
+	GPIOA->MODER |= 0X00002000;  
+
+	GPIOA->AFR[0]   &= ~0x0F000000;  //clear AFRL6 
+	GPIOA->AFR[0]   |= 0x03000000;  //PA6 = AF3 
 
 	GPIOB->MODER = 0x00005500;
 	GPIOB->PUPDR = 0x00000055;
@@ -114,9 +89,7 @@ int main(void){
 	EXTI->FTSR = 	0x00000001;
 	NVIC_EnableIRQ(EXTI0_IRQn);
 	NVIC_ClearPendingIRQ(EXTI0_IRQn);  
-	NVIC_EnableIRQ(TIM7_IRQn);
-	NVIC_ClearPendingIRQ(TIM7_IRQn);
-	
+
 	RCC->CR |= RCC_CR_HSION;                    // Turn on 16MHz HSI oscillator 
 	while ((RCC->CR & RCC_CR_HSIRDY) == 0);   // Wait until HSI ready 
 	RCC->CFGR |= RCC_CFGR_SW_HSI;          // Select HSI as system clock 

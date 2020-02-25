@@ -17,7 +17,7 @@ uint8_t log_2(uint8_t num){
 }
 void delay_us(int delay) {
     TIM6->SR = 0;	
-    TIM6->PSC =  4;
+    TIM6->PSC =  16-1;
     TIM6->ARR = delay;
     TIM6->CNT = 0;
     TIM6->CR1 |= TIM_CR1_CEN;
@@ -25,22 +25,22 @@ void delay_us(int delay) {
 }
 void delay_ms(int delay) {
     TIM6->SR = 0;	
-    TIM6->PSC =  4000;
-    TIM6->ARR = delay;
+    TIM6->PSC =  16000-1;
+    TIM6->ARR = delay-1;
     TIM6->CNT = 0;
     TIM6->CR1 |= TIM_CR1_CEN;
     while (!(TIM6->SR & TIM_SR_UIF));
 }
 void setupTimer7() {
 	TIM7->SR = 0;	
-    TIM7->PSC =  4000;
-    TIM7->ARR = 100;
-    TIM7->CNT = 0;
+	TIM7->PSC =  16000-1;
+	TIM7->ARR = 100-1;
+	TIM7->CNT = 0;
 	TIM7->DIER |= TIM_DIER_UIE;
-    TIM7->CR1 |= TIM_CR1_CEN;
+	TIM7->CR1 |= TIM_CR1_CEN;
 }
 void display() {
-	GPIOC->ODR = ((count2 & 0x0F) << 4) | (count & 0x0F);
+	GPIOC->ODR = ((count1 & 0x0F) << 4) | (count & 0x0F);
 }
 uint8_t countF(uint8_t *count,int num) {
     *count += num;
@@ -52,10 +52,10 @@ uint8_t countF(uint8_t *count,int num) {
 }
 void EXTI0_IRQHandler(){
 	uint8_t qq;
-	delay_ms(2);
+	
 	for(char i = 0; i < 4; i++){
 		GPIOB->ODR = 0x000000F0 & (~(0x10 << i));
-		delay_us(100);
+		delay_ms(2);
 		qq = INS;
 		if(qq != 0xF) {
 			key = lu[4*i + log_2((~qq)&0x0F)];
@@ -106,7 +106,7 @@ void pinSetup() {
 }
 	
 int main(void){
-    
+	
 	SYSCFG->EXTICR[0] = 0;
 	//EXTI->RTSR = 	0x00FFFFFF;
 	EXTI->EMR = 	0x00000001; 
@@ -115,7 +115,12 @@ int main(void){
 	NVIC_EnableIRQ(EXTI0_IRQn);
 	NVIC_ClearPendingIRQ(EXTI0_IRQn);  
 	NVIC_EnableIRQ(TIM7_IRQn);
-	NVIC_ClearPendingIRQ(TIM7_IRQn);  
+	NVIC_ClearPendingIRQ(TIM7_IRQn);
+	
+	RCC->CR |= RCC_CR_HSION;                    // Turn on 16MHz HSI oscillator 
+	while ((RCC->CR & RCC_CR_HSIRDY) == 0);   // Wait until HSI ready 
+	RCC->CFGR |= RCC_CFGR_SW_HSI;          // Select HSI as system clock 
+	
 	pinSetup();
 	GPIOB->ODR = 0x00000000;
 	__enable_irq();
