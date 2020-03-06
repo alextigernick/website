@@ -30,8 +30,8 @@ void delay_ms(int delay) {
 }
 void setupTimer10() {
 	TIM10->SR = 0;	
-	TIM10->PSC =  16-1;
-	TIM10->ARR = 1000-1;
+	TIM10->PSC =  16000-1;
+	TIM10->ARR = 10-1;
 	TIM10->CCR1 = 0;
 	TIM10->CNT = 0;
 	TIM10->CCMR1 = 0x00000060;
@@ -53,7 +53,20 @@ void EXTI0_IRQHandler(){
 		if(qq != 0xF) {
 			key = lu[4*i + log_2((~qq)&0x0F)];
 			if (key <= 10)
-				TIM10->CCR1 = key*100;
+				TIM10->CCR1 = key;
+			else{
+				switch(key){
+					case 11:
+						TIM10->PSC =  16000-1;
+						break;
+					case 12:
+						TIM10->PSC =  1600-1;
+						break;
+					case 13:
+						TIM10->PSC =  160-1;
+						break;
+				}
+			}
 			break;
 		}
 	}
@@ -89,12 +102,13 @@ int main(void){
 	EXTI->FTSR = 	0x00000001;
 	NVIC_EnableIRQ(EXTI0_IRQn);
 	NVIC_ClearPendingIRQ(EXTI0_IRQn);  
-
+	
 	RCC->CR |= RCC_CR_HSION;                    // Turn on 16MHz HSI oscillator 
 	while ((RCC->CR & RCC_CR_HSIRDY) == 0);   // Wait until HSI ready 
 	RCC->CFGR |= RCC_CFGR_SW_HSI;          // Select HSI as system clock 
 	
 	pinSetup();
+	setupTimer10();
 	GPIOB->ODR = 0x00000000;
 	__enable_irq();
     while(1);
