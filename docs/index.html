@@ -1,239 +1,50 @@
 <!DOCTYPE html>
-<html>
-<meta charset="UTF-8">
+<html lang="en">
 
 <head>
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <style>
-        body {
-            background-color: #0D0221;
-            margin: 0;
-            padding: 0;
-            color: rgb(245, 245, 245);
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        ul.menubar {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-
-        }
-
-        ul.menubar>li {
-            float: left;
-        }
-
-        ul {
-            margin-block-start: 0px;
-        }
-
-        li.dropdown>a,
-        .dropbtn {
-            display: inline-block;
-            color: white;
-            padding: 16px;
-            text-decoration: none;
-            font-size: 16px;
-            height: 48px;
-        }
-
-        ul.menubar>li>a:hover,
-        .dropdown:hover .dropbtn {
-            background-color: rgb(80, 80, 80);
-        }
-
-        ul.menubar>li.dropdown {
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: rgb(80, 80, 80);
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        a {
-            color: rgb(167, 166, 166);
-        }
-
-        .dropdown-content a {
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            color: white;
-        }
-
-        .dropdown-content a:hover {
-            background-color: rgb(100, 100, 100);
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .noselect {
-            -webkit-touch-callout: none;
-            /* iOS Safari */
-            -webkit-user-select: none;
-            /* Safari */
-            -khtml-user-select: none;
-            /* Konqueror HTML */
-            -moz-user-select: none;
-            /* Firefox */
-            -ms-user-select: none;
-            /* Internet Explorer/Edge */
-            user-select: none;
-            /* Non-prefixed version, currently
-                                                    supported by Chrome and Opera */
-        }
-
-        .content {
-            margin: 10px;
-            padding: 0px;
-            max-width: 800px;
-        }
-
-        .block {
-            border: solid rgb(36, 4, 94);
-            background-color: rgb(25, 4, 66);
-            border-radius: 5px;
-            margin: 0px auto;
-            padding: 10px;
-            margin-bottom: 10px;
-            margin-right: 10px;
-            padding-right: 10px;
-        }
-
-        .block>h3 {
-            margin: 0;
-            margin-block-end: 15px;
-        }
-
-        .block>*:not(:first-child) {
-            margin: 0;
-            padding-right: 15px;
-            position: relative;
-            left: 15px;
-        }
-
-        .block>ul {
-            padding-left: 30px;
-        }
-
-        .nav a {
-            display: inline-block;
-            padding: 0;
-            margin: 0;
-            padding-right: 10px;
-        }
-
-        .nav h2 {
-            padding: 0;
-            margin: 0;
-        }
-
-        .a_no {
-            text-decoration: none;
-        }
-
-        pre {
-            border: solid gray;
-            border-width: .1em .1em .1em .8em;
-            padding: .2em .6em;
-        }
-
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 90%;
-        }
-
-        td,
-        th {
-            border: 1px solid rgb(54, 16, 122);
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #0D0221;
-        }
-        .code {
-            background-color: rgb(36, 4, 94);
-            width: 75%;
-            padding: 8px;
-            font-family: monospace;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelf Designer</title>
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                overflow: hidden;
+            }
+            .canvas-container {
+                display: flex;
+                height: 90vh;
+                width: 100%;
+            }
+            canvas {
+                width: 50% !important;
+                height: 100% !important;
+                border: 1px;
+            }
+        </style>
 </head>
 
 <body>
-    <div class="noselect">
-        <ul class="menubar">
-            <li class="dropdown"><a href="/">
-                    <image src="/home.png" alt="Home" height="48px" style="padding-right:10px;" /></a></li>
-            <li class="dropdown"><a href="/Bio/">
-                    <p>Bio</p>
-                </a></li>
-            <li class="dropdown">
-                <a href="/projects/" class="dropbtn">
-                    <p>Projects</p>
-                </a>
-                <div class="dropdown-content">
-                    <a href='/projects/Embedded System Lab/'/><p>Embedded System Lab</p></a><a href='/projects/Radio Lab/'/><p>Radio Lab</p></a><a href='/projects/Tools/'/><p>Tools</p></a><a href='/projects/VHDL/'/><p>VHDL</p></a><a href='/projects/Web Server/'/><p>Web Server</p></a>
-                </div>
-            </li>
-        </ul>
+    <div>
+        <button id="newButton">New</button>
+        <button id="deleteButton">Delete</button>
+        <button id="saveButton">Save</button>
+        <button id="saveasButton">Save as</button>
+        <button id="loadButton">Load</button>
+        <select id="loadSelect">
+        </select>
+        <button id="updateGridButton">Update Grid</button>
     </div>
-    <div class="content">
-<title>294: Home</title>
-<H1>
-    Alex Jones's site
-</H1>
-<div class="block">
-    <h3>
-        What is this?
-    </h3>
-    <p>
-        A technical log of projects and a form of digital portfolio. This helps me to record how to do things so that in a few years I can consult these notes.
-    </p>
-    </br>
-    <h3>
-        Who are you?
-    </h3>
-    <p>
-        Alex Jones, an electrical engineering undergraduate at Auburn university. Learn more <a href="/Bio/">here</a>
-    </p>
-    </br>
-    <h3>
-        What kind of projects do you do?
-    </h3>
-    <p>
-        Currently the majority of articles will be from Radio lab, but all my classes will get posted here. My hobby projects range from chemistry to embedded electronics to wood working.
-    </p>
-    </br>
-    <h3>
-        Contact information?
-    </h3>
-    <p>
-        Email: <a href="emailto:naj0016@auburn.edu">naj0016@auburn.edu</a>
-    </p>
-    </br>
-    <h3>
-        What is this monstrosity of a site?
-    </h3>
-    <p>
-        See <a href="/projects/Web%20Server/">here</a>
-    </p>
-</div>
+    <div class="canvas-container">
+        <canvas id="shelfCanvas"></canvas>
+        <canvas id="smoothCanvas"></canvas>
+    </div>
 
-</div>
+
+    <script src="https://d3js.org/d3-delaunay.v6.min.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
