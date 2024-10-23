@@ -17,45 +17,6 @@ let gridSize = 20; // Default grid size
 let zoomLevel = 1;
 let panX = 0;
 let panY = 0;
-function medianFilterImageData(imageData, windowSize = 3) {
-    const width = imageData.width;
-    const height = imageData.height;
-    const data = imageData.data;
-    const result = new Uint8ClampedArray(data.length);
-
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            const windowR = [];
-            const windowG = [];
-            const windowB = [];
-
-            for (let dy = -Math.floor(windowSize / 2); dy <= Math.floor(windowSize / 2); dy++) {
-                for (let dx = -Math.floor(windowSize / 2); dx <= Math.floor(windowSize / 2); dx++) {
-                    const ny = y + dy;
-                    const nx = x + dx;
-                    if (ny >= 0 && ny < height && nx >= 0 && nx < width) {
-                        const i = (ny * width + nx) * 4;
-                        windowR.push(data[i]);
-                        windowG.push(data[i + 1]);
-                        windowB.push(data[i + 2]);
-                    }
-                }
-            }
-
-            windowR.sort((a, b) => a - b);
-            windowG.sort((a, b) => a - b);
-            windowB.sort((a, b) => a - b);
-
-            const i = (y * width + x) * 4;
-            result[i] = windowR[Math.floor(windowR.length / 2)];
-            result[i + 1] = windowG[Math.floor(windowG.length / 2)];
-            result[i + 2] = windowB[Math.floor(windowB.length / 2)];
-            result[i + 3] = data[i + 3]; // Keep original alpha
-        }
-    }
-
-    return new ImageData(result, width, height);
-}
 
 function drawPoints_body(smooth = 0, shapesonly = false) {
     ctx.save();
@@ -68,11 +29,6 @@ function drawPoints_body(smooth = 0, shapesonly = false) {
         ctx.restore();
         return
     }
-    // const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-    // const filteredImageData = medianFilterImageData(imageData, 3); // 3x3 window
-
-    // smooth_ctx.putImageData(filteredImageData, 0, 0);
     // Draw grid
     drawGrid();
 
@@ -384,6 +340,10 @@ function drawVoronoi(edges = true, smooth = 0) {
         }
 
         cells.forEach(cell => {
+            if(!cell)
+                return
+
+            
             if (smooth) {
                 cell = chaikinCurveClosed(cell,25,3)
                 // cell = hybridChaikinLaplace(cell, 3, 1);
@@ -415,7 +375,10 @@ function drawVoronoi(edges = true, smooth = 0) {
     
                     cell.splice(0, 1)
                 }
+                if(!cell)
+                    return
                 cell = chaikinCurveClosed(cell,25,3)
+
 
             }
             cell = insetPolygon(cell,10)
@@ -613,6 +576,26 @@ function loadPoints() {
         drawPoints();
     }
 }
+function exportPoints() {
+    var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+        points: points,
+        disabledPoints: disabledPoints,
+        mergedPoints: mergedPoints,
+        zoomLevel: zoomLevel,
+        panX: panX,
+        panY: panY
+    },null,4));
+    var a = document.createElement('a');
+    a.href = 'data:' + data;
+    a.download = document.getElementById('loadSelect').value+'.json';
+    a.innerHTML = 'download JSON';
+
+    var container = document.getElementById('hide');
+    container.appendChild(a);
+    a.click();
+
+    a.remove();
+}
 
 function populateSaveList() {
     // Populate the load dropdown
@@ -625,7 +608,7 @@ function populateSaveList() {
     }
     savedSaves.sort();
     if (savedSaves.length == 0) {
-        const demo = '{"points":[[540,440],[1000,400],[1000,800],[800,600],[1000,600],[1200,600],[800,800],[800,300],[540,540],[320,580],[540,800],[450,400],[450,500],[1150,450],[780,600],[780,800],[780,300],[540,260],[1000,420],[900,800]],"disabledPoints":[2,1,5,6,7,9,10,11,12,13,15,16,17,19],"mergedPoints":[[14,3]],"zoomLevel":1.1623211721000009,"panX":-360.97233811603803,"panY":-110.74955085200429}'
+        const demo = '{"points":[[540,440],[1000,400],[1000,800],[800,600],[1000,600],[1200,600],[800,800],[800,300],[540,540],[320,580],[540,800],[450,400],[450,500],[1150,450],[780,600],[780,800],[780,300],[540,260],[1000,420],[900,800]],"disabledPoints":[2,1,5,6,7,9,10,11,12,13,15,16,17,19],"mergedPoints":[[14,3]],"zoomLevel":0.8221655227352777,"panX":-259.92739638364253,"panY":-16.415736211721736}'
         localStorage.setItem(`shelfPoints-Demo Shelf`, demo);
         savedSaves = ["Demo Shelf"]
     }
@@ -651,6 +634,7 @@ document.getElementById('saveButton').addEventListener('click', () => {
     savePoints(selectedSave);
 });
 document.getElementById('loadButton').addEventListener('click', loadPoints);
+document.getElementById('exportButton').addEventListener('click', exportPoints);
 
 // Function to clear the canvas
 function clearCanvas() {
